@@ -1,0 +1,77 @@
+body {
+  font-family: Arial;
+  padding: 20px;
+  background: #f1f1f1;
+}
+
+/* Header/Blog Title */
+.header {
+  height: 400px;
+  font-size: 40px;
+  opacity: 50%;
+  text-align: center;
+  vertical-align: center;
+  color: #000;
+}
+
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {
+  float: left;
+  width: 74%;
+}
+
+/* Right column */
+.rightcolumn {
+  float: right;
+  width: 25%;
+  padding-left: 5px;
+}
+
+/* Fake image */
+.imgblock {
+  background-color: white;
+  width: 95%;
+  padding: 20px;
+}
+
+/* Add a card effect for articles */
+.article {
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.sidebar {
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.a{
+  text-decoration: none;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  height: 50px;
+  margin-top: 20px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn { 
+    width: 100%;
+    padding: 0;
+  }
+}

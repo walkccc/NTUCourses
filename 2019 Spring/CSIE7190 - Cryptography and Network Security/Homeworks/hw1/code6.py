@@ -1,0 +1,13 @@
+from pwn import *
+
+def md5(r):
+    r.recv()
+    r.send(b'IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMgojIC0qLSBjb2Rpbmc6IHV0Zi04IC0qLQojICAgICAKZGlmZiA9ICcnJ7mShecrqiBt9ggCG6VBO0KpH3LO3n/N8ifaOfGNGZOK2BMHyODKFx5vDuFEzxu2RM/yo8HJds1jELKMYIUi40kJdfl/D8LgF4+TIoTgPz2eVvXHpn5Kcu0eeZ3WS3sR4A3PcuDJMc6lhncNoorsMP7iHEdBpsqzTfbnkOz6ogdFJycnCnNhbWUgPSAnJye5koXnK6ogbfYIAhulQTtCqR9yzt5/zfIn2jnxjRmTitgTB8jgyhcebw7hRM8btkTP8qPByXbNYxCyjGCFIuNJCXX5fw/C4BePkyKE4D89nlb1x6Z+SnLtHnmd1kt7EeANz3LgyTHOpYZ3DaKK7DD+4hxHQabKs03255Ds+qIHRScnJwoKaWYgKHNhbWUgPT0gZGlmZik6CiAgICBwcmludCAiTUQ1IGlzIHNlY3VyZSEiCgplbHNlOgogICAgcHJpbnQgIkp1c3Qga2lkZGluZyEiCgo=')
+    r.send('\n')
+    r.send(b'IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMgojIC0qLSBjb2Rpbmc6IHV0Zi04IC0qLQojICAgICAKZGlmZiA9ICcnJ7mShecrqiBt9ggCG6VBO0KpH3JO3n/N8ifaOfGNGZOK2BMHyODKFx5vDuFEz5u2RM/yo8HJds1jELKM4IUi40kJdfl/D8LgF4+TIoTgPz2eVvXHJn5Kcu0eeZ3WS3sR4A3PcuDJMc6lhncNoopsMP7iHEdBpsqzTfbnkGz6ogdFJycnCnNhbWUgPSAnJye5koXnK6ogbfYIAhulQTtCqR9yzt5/zfIn2jnxjRmTitgTB8jgyhcebw7hRM8btkTP8qPByXbNYxCyjGCFIuNJCXX5fw/C4BePkyKE4D89nlb1x6Z+SnLtHnmd1kt7EeANz3LgyTHOpYZ3DaKK7DD+4hxHQabKs03255Ds+qIHRScnJwoKaWYgKHNhbWUgPT0gZGlmZik6CiAgICBwcmludCAiTUQ1IGlzIHNlY3VyZSEiCgplbHNlOgogICAgcHJpbnQgIkp1c3Qga2lkZGluZyEiCgo=')
+    r.send('\n')
+
+if __name__ == "__main__":
+    r = remote('140.112.31.96', 10150)
+    md5(r)
+    r.interactive()

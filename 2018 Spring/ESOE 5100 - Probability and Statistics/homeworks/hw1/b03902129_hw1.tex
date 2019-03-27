@@ -1,0 +1,130 @@
+% !TEX program = xelatex
+\documentclass{article}
+\usepackage{/Users/jay/LaTeX/cs}
+\usepackage{xeCJK}
+
+\newcommand{\hmwkClass}{Probability and Statistics, Spring 2018}
+\newcommand{\hmwkTitle}{Homework 1}
+\newcommand{\hmwkDueDate}{March 26, 2018}
+\newcommand{\tb}{\textbf}
+
+\begin{document}
+\thispagestyle{empty}
+\section*{\hmwkClass \\
+    \normalsize{\hmwkTitle} \\
+    \normalsize{DUE DATE: \hmwkDueDate}
+}
+
+\hfill{B03902129 \, 資工四 \, 陳鵬宇}
+
+\begin{enumerate}
+    \item [\textbf{1.1.3}]
+    \begin{enumerate}[label=(\alph*)]
+        \item $S = \{aaa, aaf, afa, aff, faa, faf, ffa, fff\}$
+        \item $Z_F = \{aaf, aff, faf, fff\}$ \\
+              $X_A = \{aaa, aaf, afa, aff\}$
+        \item Since $Z_F \cap X_A = \{aaf, aff\} \ne \emptyset$, $Z_F$ and $X_A$ are not mutually   exclusive. 
+        \item Since $Z_F \cup X_A = \{aaa, aaf, afa, aff, faf, fff\} \ne S$, $Z_F$ and $X_A$ are not    collectively exhaustive.
+        \item $C = \{aaa, 
+        aaf, afa, faa\}$ \\
+              $D = \{aff, faf, ffa, fff\}$
+        \item Since $C \cap D = \emptyset$, $C$ and $D$ are mutually exclusive. 
+        \item Since $C \cup D = S$, $C$ and $D$ are collectively exhaustive.      
+    \end{enumerate}
+
+    \item [\textbf{1.2.10}]
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+        If $A$ and $B$ are mutually exclusive, $\mbox P[A \cup B] = \mbox P[A] + \mbox P[B] \ge \mbox P[A].$ \\
+        If $A$ and $B$ are not mutually exclusive, $\mbox P[A \cup B] = \mbox P[A] + \mbox P[B] - \mbox P[A \cap B] \ge P[A].$
+        \item 
+        If $A$ and $B$ are mutually exclusive, $\mbox P[A \cup B] = \mbox P[A] + \mbox P[B] \ge \mbox P[B].$ \\
+        If $A$ and $B$ are not mutually exclusive, $\mbox P[A \cup B] = \mbox P[A] + \mbox P[B] - \mbox P[A \cap B] \ge P[B].$
+        \item 
+        If $A$ and $B$ are mutually exclusive, $\mbox P[A \cap B] = \emptyset \le \mbox P[A].$ \\
+        If $A$ and $B$ are not mutually exclusive, $\mbox P[A \cap B] = \mbox P[A] - \mbox P[B] \le P[A].$
+        \item 
+        If $A$ and $B$ are mutually exclusive, $\mbox P[A \cap B] = \emptyset \le \mbox P[B].$ \\
+        If $A$ and $B$ are not mutually exclusive, $\mbox P[A \cap B] = \mbox P[B] - \mbox P[A] \le P[B].$
+    \end{enumerate}
+
+    \item [\textbf{1.3.4}]
+    Let $A$ represents Apricots and $B$ represents Bananas. \\
+    $S = \{AA, AB, BA, BB\}$, $\mbox P[BB] = \frac{1}{2} \cdot \frac{2}{3} = \frac{1}{3}.$
+
+    \item [\textbf{1.4.3}]
+    \begin{enumerate}[label=(\alph*)]
+        \item
+        Let 
+        $$
+        \begin{array}{c|ccc}
+            & H_0 & H_1 & H_2 \\
+        \hline
+        F   & p_0 & p_1 & p_2 \\
+        V   & q_0 & q_2 & q_2
+        \end{array}
+        $$
+
+        With $p_0 + p_1 + p_2 = \frac{5}{12}$, $q_0 + q_1 + q_2 = \frac{7}{12}$, $p_i + q_i = \frac{1}{3}$ for $i = 0, 1$ and $2$. We can get following possible solutions:
+
+        $$
+        \begin{array}{c|ccc}
+            & H_0   & H_1   & H_2 \\
+        \hline
+        F   & 0     & 1 / 6 & 1 / 4 \\
+        V   & 1 / 3 & 1 / 6 & 1 / 12
+        \end{array} \qquad
+        \begin{array}{c|ccc}
+            & H_0   & H_1   & H_2 \\
+        \hline
+        F   & 1 / 6 & 0     & 1 / 4 \\
+        V   & 1 / 6 & 1 / 3 & 1 / 12
+        \end{array} \qquad
+        \begin{array}{c|ccc}
+            & H_0   & H_1    & H_2 \\
+        \hline
+        F   & 1 / 6 & 1 / 4  & 0 \\
+        V   & 1 / 6 & 1 / 12 & 1 / 3
+        \end{array}
+        $$
+
+        \item In the beginning, the table looks like:
+        $$
+        \begin{array}{c|ccc}
+            & H_0   & H_1   & H_2 \\
+        \hline
+        F   & 1 / 4 &       & \\
+        V   &       & 1 / 6 &
+        \end{array}
+        $$
+        Since $\mbox P[H_0] = \mbox P[H_1] = \mbox P[H_2] = 1 / 3$, $\mbox P[VH_0] = 1 / 3 - 1 / 4 = 1 / 12$ and $\mbox P[FH_1] = 1 / 3 - 1 / 6 = 1 / 6$.
+        $$
+        \begin{array}{c|ccc}
+            & H_0    & H_1   & H_2 \\
+        \hline
+        F   & 1 / 4  & 1 / 6 & \\
+        V   & 1 / 12 & 1 / 6 &
+        \end{array}
+        $$
+        Since $\mbox P[F] = 5 / 12$ and $\mbox P[V] = 7 / 12$, $\mbox P[FH_2] = 5 / 12 - 1 / 4 - 1 / 6 = 0$ and $\mbox P[VH_2] = 7 / 12 - 1 / 12 - 1 / 6 = 1 / 3$.
+        $$
+        \begin{array}{c|ccc}
+            & H_0    & H_1   & H_2 \\
+        \hline
+        F   & 1 / 4  & 1 / 6 & 0 \\
+        V   & 1 / 12 & 1 / 6 & 1 / 3
+        \end{array}
+        $$
+    \end{enumerate}
+
+    \item [\textbf{1.5.9}]
+    Let $A = \{1, 2\}$, $B = \{1, 3\}$ and $C = \{2, 3\}$, then $A$, $B$, and $C$ are pairwise independent but are not independent. Since
+    \begin{align*}
+    \mbox P[A \cap B] & = \mbox P[\{1\}] = \frac{1}{4} = \mbox P[A] \mbox P[B] = \frac{1}{2} \cdot \frac{1}{2} \\
+    \mbox P[B \cap C] & = \mbox P[\{3\}] = \frac{1}{4} = \mbox P[B] \mbox P[C] = \frac{1}{2} \cdot \frac{1}{2} \\
+    \mbox P[C \cap A] & = \mbox P[\{2\}] = \frac{1}{4} = \mbox P[C] \mbox P[A] = \frac{1}{2} \cdot \frac{1}{2} \\
+    \mbox P[A \cap B \cap C] & = \mbox P[\phi] = 0 \ne \mbox P[A] P[B] \mbox P[C] = \frac{1}{2} \cdot \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{8}.
+    \end{align*}
+\end{enumerate}
+
+\end{document}

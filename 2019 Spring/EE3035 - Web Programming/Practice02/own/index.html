@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image Viewer</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800"  type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css" />
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+  </head>
+
+  <body>
+    <div id="title">Ric's WebProg2019 / Practice02</div>
+    <div class="container">
+      <div class="has-text-centered">Image Viewer</div>
+      <div class="box">
+        <div class="columns">
+
+          <div class="column is-one-fifth">
+            <figure class="image is-64x64 has-image-centered">
+              <img onclick="prev()" id="prevBtn" src="./images/back.png" alt="prev">
+            </figure> 
+          </div>
+
+          <div class="column">
+            <figure class="image is-256x256">
+              <img id="img" src="./images/loading.gif" alt="img">
+            </figure>
+          </div>
+
+          <div class="column is-one-fifth">
+            <figure class="image is-64x64 has-image-centered">
+              <img onclick="next()" id="nextBtn" src="./images/next.png" alt="next">
+            </figure>
+          </div>
+        
+        </div>
+        <div id="message" class="has-text-centered"></div>
+      </div>
+    </div>
+
+  <!-- Try to implement an HTML that looks like the reference example: https://github.com/ric2k1/ric2k1.github.io/blob/master/W2_0227/practice/img_viewer_begin/images/screenshot.png -->
+  <!-- Please use the class names and IDs as defined in styles.css so that the outlook can be the same as the reference. -->
+  </body>
+  <script type="text/javascript" src="./main.js"></script>
+</html>

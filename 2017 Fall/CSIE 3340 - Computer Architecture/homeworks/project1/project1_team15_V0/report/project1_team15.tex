@@ -1,0 +1,203 @@
+% !TEX program = xelatex
+\documentclass{article}
+\usepackage{/Users/jay/LaTeX/cs}
+\usepackage{/Users/jay/LaTeX/codelist}
+
+\newcommand{\hmwkClass}{Computer Architecture, Fall 2017}
+\newcommand{\hmwkTitle}{Project 1 report}
+\newcommand{\hmwkDueDate}{DECEMBER 11, 2017}
+\newcommand{\tb}{\textbf}
+
+\begin{document}
+
+\thispagestyle{empty}
+\section*{\hmwkClass \\
+    \normalsize{\hmwkTitle} \\
+    \normalsize{DUE DATE: \hmwkDueDate}
+}
+
+\section{Members \& Team Work} 
+\begin{itemize}
+    \item b03902125 郭曉嵐
+    \begin{itemize}
+        \item Debugging.
+        \item Fixing some data hazard error.
+    \end{itemize}
+
+    \item b03902127 林映廷
+    \begin{itemize}
+        \item Linking the module with \textit{CPU.v}.
+        \item Handling with \textit{flush} and \textit{stall} in \textit{HazardDetection.v}.
+    \end{itemize}
+
+    \item b03902129 陳鵬宇
+    \begin{itemize}
+        \item Linking the module with \textit{CPU.v}.
+        \item The implementation of \textit{Forwading.v}.
+        \item The implementation of each sub module.
+    \end{itemize}
+
+\end{itemize}
+
+\section{Implementation of the Pipeline CPU}
+
+We use \textit{testbench.v} to see the output; \textit{CPU.v} to build the whole datapath.\\
+
+The \textit{CPU.v} is the core of the whole program, which takes two inputs \textit{clk\_i} since we change the value when \textit{positive clock edge} and \textit{start\_i} since we need to know when the program is starting, so we set the \textit{start\_i} to 1 when the clock time begins for one-fourth of the \textit{CYCLE\_TIME} to ensure that the start signal is valid at the right time. 
+
+\begin{itemize}
+    \item \textbf{testbench}: Do the following by specs:
+    \begin{itemize}
+        \item Initialize storage units.
+        \item Load "instruction.txt" into instruction memory.
+        \item Create clock signal.
+        \item Output cycle count in each cycle.
+        \item Output Register File \& Data Memory in each cycle.
+        \item Print result to "output.txt".
+        \item Handle when to \textit{stall} or \textit{flush}.
+    \end{itemize}
+
+    \item \textbf{CPU}: Declare the $wire$ and $reg$ type variables in $CPU.v$ since there may be an output of a module connecting to several inputs of other modules. If we don't declare these variables globally, the codes will look tedious and hard to read. 
+    And classify the registers as four types:
+    \begin{itemize}
+        \item IF/ID registers
+        \item ID/EX registers
+        \item EX/MEM registers
+        \item MEM/WB registers
+    \end{itemize}    
+\end{itemize}
+
+\newpage
+\section{Implementation and Explanation of Each Module}
+    \subsection*{IF stage}
+    \begin{itemize}
+        \item \textbf{Instruction\_Memory}: Save the instructions.
+        \item \textbf{PC}: \textit{PC} module:
+        \begin{itemize}
+            \item if \textit{hazard} doesn't occur and \textit{start\_i} is set, updates the PC value.
+            \item else if \textit{start\_i} is not set, clears the \textit{PC value} to zeros.
+        \end{itemize}
+        \item \textbf{Add\_PC}: Add the \textit{instAddr} for 4.
+        \item \textbf{MUX\_Branch}: Determine whether \textit{branch} to new address or not.
+        \item \textbf{MUX\_Jump}: Determine whether \textit{jump} to new address or not. 
+    \end{itemize}
+
+    \subsection*{ID stage}
+    \begin{itemize}
+        \item \textbf{Registers}: Save the data of registers.
+        \item \textbf{ADD}: Add the \textit{shifted address} and \textit{IFID\_pc} together.
+        \item \textbf{ShiftJump}: Shift the \textit{jump address} left by two bits, and concatenate with two zeros.
+        \item \textbf{ShiftLeft2}: Shift the \textit{address} left by two bits.
+        \item \textbf{Sign\_Extend}: Extend the 16-bits \textit{address} to 32 bits by filling in the $[31:16]$ bits as the first bit of the input address, i.e., \textit{address$[15]$}.
+        \item \textbf{Equal}: Determine whether \textit{RS\_data} and \textit{RT\_data} are equal or not.
+        \item \textbf{Control}: Set the following control units to 0 or 1 by the 6-bits \textit{op\_i$[5:0]$}. 
+        \begin{itemize}
+            \item $RegWrite$
+            \item $MemtoReg$
+            \item $Branch$
+            \item $MemRead$
+            \item $MemWrite$
+            \item $RegDst$
+            \item $ALUOp$
+            \item $ALUSrc$
+            \item $Jump$
+        \end{itemize}
+        \item \textbf{MUX\_CtrlUnit}: Determine whether to \textit{stall} the pipeline or not.        
+        \item \textbf{MUX\_RS}: Determine whether forwarding the \textit{RSdata} by the \textit{Forwarding} module.
+        \item \textbf{MUX\_RT}: Determine whether forwarding the \textit{RTdata} by the \textit{Forwarding} module.
+        \item \textbf{HazardDetection}: Detect the hazard. 
+        \begin{itemize}
+            \item if \textit{MemRead\_i} is set, it means that \textit{lw} may incurs some hazard, thus we have to \textit{stall} the pipeline for one clock cycle but do not \textit{flush} the pipeline. 
+                  Also we set the \textit{pc\_hazard\_o} to 0.  
+            \item else if the control units \textit{Jump\_i} or \textit{Branch\_i} \& \textit{Equal\_i} are set, we not only \textit{stall} the pipeline but \textit{flush} it.
+                  Also we set the \textit{pc\_hazard\_o} to 1.
+            \item else we continue our stages as before and set \textit{stall\_o, flush\_o} and \textit{pc\_hazard\_o} to 0.
+        \end{itemize}
+    \end{itemize}
+
+    \newpage
+    \subsection*{EX stage}
+    \begin{itemize}
+        \item \textbf{ALU}: Do the ALU operation with two data, and also assign the \textit{zero} value to 0 or 1.
+        \item \textbf{ALU\_Controlt}: Determine the \textit{ALU operation} by the 6-bits \textit{function} field.
+        \item \textbf{MUX\_RegisterRd}: Decide the \textit{RegisterRd} between \textit{inst$[20:16]$} and \textit{inst$[15:11]$}.
+        \item \textbf{MUX\_ForwardA}: Determine the input of \textit{ALU.data1\_i} by the \textit{Forwarding} module. 
+        \item \textbf{MUX\_ForwardB}: Determine the input of \textit{tmpALUdata2} by the \textit{Forwarding} module.
+        \item \textbf{MUX\_ALUSrc2}: Determine whether the input of \textit{ALU.data2\_i} is \textit{tmpALUdata2} or the \textit{sign-extened data}.
+        \item \textbf{Forwarding}: Determine the value of \textit{ForwardA} and \textit{ForwardB} by the following two data hazard:
+        \begin{enumerate}
+            \item \textit{EX hazard}:
+            \begin{itemize}    
+                \item if (EX/MEM.RegWrite 
+
+                      and (EX/MEM.RegisterRd $\ne$ 0) 
+
+                      and (EX/MEM.RegisterRd = ID/EX.RegisterRs)) ForwardA = 10
+                \item if (EX/MEM.RegWrite 
+                    
+                      and (EX/MEM.RegisterRd $\ne$ 0) 
+                      
+                      and (EX/MEM.RegisterRd = ID/EX.RegisterRt)) ForwardB = 10
+            \end{itemize}
+            \item \textit{MEM hazard}:
+            \begin{itemize}
+                \item if (MEM/WB.RegWrite 
+                
+                      and (MEM/WB.RegisterRd $\ne$ 0) 
+                    
+                      and (MEM/WB.RegisterRd = ID/EX.RegisterRs)) ForwardA = 01
+                
+                \item if (MEM/WB.RegWrite 
+                    
+                      and (MEM/WB.RegisterRd $\ne$ 0) 
+                      
+                      and (MEM/WB.RegisterRd = ID/EX.RegisterRt)) ForwardB = 01
+            \end{itemize}
+        \end{enumerate}
+    \end{itemize}
+
+    \subsection*{MEM stage}
+    \begin{itemize}
+        \item \textbf{Data\_Memory}: Save the data of the memory.
+    \end{itemize}
+
+    \subsection*{WB stage}
+    \begin{itemize}
+        \item \textbf{MUX\_RegWriteData}: Determine the data written to the register is \textit{MEMWB\_ALUResult} or \textit{MEMWB\_ReadData}.
+    \end{itemize}
+    
+    \newpage
+    \section{Problems and Solution of the Project}
+    To implement a such huge five stages pipeline is not easy, 
+    we have to carefully connect each input and output in a correct manner. 
+    Because we are not that familiar with \textit{verilog}, 
+    we \textit{Google} a lot to \textit{fetch} the critical information we need. \\
+
+    On the one hand, we took a long time to figure out the difference between "<=" and "=". 
+    We use "<=" in a common situation and sequential logic and "=" in a combinational logic. 
+    On the other hand, we also took some time to know the difference between \textit{reg} and \textit{wire}. 
+    Following are the explanations of them we Googled: 
+
+    \begin{itemize}
+        \item \textbf{Wire} \\
+        Wires are used for connecting different elements. 
+        They can be treated as physical wires. 
+        They can be read or \textit{assigned}. 
+        No values get stored in them. They need to be driven by either continuous assign statement or from a port of a module. 
+        \item \textbf{Reg} \\
+        Contrary to their name, regs don't necessarily correspond to 
+         physical registers. They represent data storage elements in
+         Verilog/SystemVerilog. They retain their value till next value is
+         assigned to them (not through assign statement). 
+    \end{itemize}
+    
+    It is also very difficult to debug because there are \textit{twenty} .v files in the folder. 
+    Our eyes really suffered a lot. 
+    We inserted the following codes to generate the .vcd file for conveniently debugging: \\
+
+    \hspace{10mm}\$dumpfile("project.vcd"); \vskip0mm
+    \hspace{10mm}\$dumpvars \\
+
+    By tracing the logic of the .vcd file, it can significantly increase the speed of debugging.
+
+\end{document}

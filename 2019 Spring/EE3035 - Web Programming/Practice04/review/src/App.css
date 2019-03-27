@@ -1,0 +1,11 @@
+.todo-app__root {
+    margin: 0 auto;
+    width: 50em;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1em;
+    color: #4d4d4d;
+    font-weight: 300;
+}

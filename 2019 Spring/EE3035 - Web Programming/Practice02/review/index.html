@@ -1,0 +1,144 @@
+<!--製作參考網址: https://www.w3schools.com/howto/howto_js_lightbox.asp-->
+<!--製作參考網址: https://andy6804tw.github.io/2017/12/22/css-image/-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Image Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles.css">
+    <script src="main.js"></script>
+</head>
+
+<body>
+
+    <h1>>> Taipei Gourmet:</h1>
+    <ul>
+        <li><a>Home</a></li>
+        <li><a>Where</a>
+            <ul>
+                <li class="cursor" type="button" onclick="javascript:location.href='https://drive.google.com/open?id=1Wx8Cwvwg1t6Wo947Hs06YDiTB-1Q3GG8&usp=sharing'"><a>Google Map</a></li>
+            </ul>
+        </li>
+        <li><a>Contact</a></li>
+        <li><a>News</a></li>
+        <li>
+            <a>IG</a>
+        </li>
+        <li>
+            <a>Facebook</a>
+        </li>
+        <li>
+            <a>See you soon</a>
+        </li>
+
+    </ul>
+    <div class="row">
+        <!--屋琥甜冰品-->
+        <div class="column">
+            <img src="https://scontent-ams3-1.cdninstagram.com/vp/4240b5e6b2ed8c78e015e9d19d550a8d/5D096029/t51.2885-15/e35/25015653_374617359646858_58321055969705984_n.jpg?_nc_ht=scontent-ams3-1.cdninstagram.com&se=8&ig_cache_key=MTY4MDI5MzE4MzI5OTE3NzgwNg%3D%3D.2"
+                onclick="OpenPicture();currentSlide(2)" class="hover-shadow cursor">
+        </div>
+        <!--合歡刀削麵-->
+        <div class="column">
+            <img src="https://farm2.staticflickr.com/1893/42652857310_663c543185_c.jpg" onclick="OpenPicture();currentSlide(1)" class="hover-shadow cursor">
+        </div>
+        <!--吉屋食堂-->
+        <div class="column">
+            <img src="https://img.auntie.tw/uploads/20180622171713_12.jpg" onclick="OpenPicture();currentSlide(4)" class="hover-shadow cursor">
+        </div>
+        <!--佐藤咖哩-->
+        <div class="column">
+            <img src="http://farm1.staticflickr.com/920/42950201804_338ca8b00d_c.jpg" onclick="OpenPicture();currentSlide(3)" class="hover-shadow cursor">
+        </div>
+        <!--莊家班麻油雞-->
+        <div class="column">
+            <img src="https://scontent-frx5-1.cdninstagram.com/vp/55e681929720cb378b0bc0d24b1915af/5CF785B9/t51.2885-15/e35/47692216_227751864818604_5994643501343726753_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com&se=8&ig_cache_key=MTk1NTkwMDUyNzI1NTg3NDE5NA%3D%3D.2"
+                onclick="OpenPicture();currentSlide(6)" class="hover-shadow cursor">
+        </div>
+        <!--高和食堂-->
+        <div class="column">
+            <img src="https://scontent-lga3-1.cdninstagram.com/vp/b93466ff8624508f05a62979a067c9e0/5CD35682/t51.2885-15/e35/46122927_311011619510010_5732116889358655533_n.jpg?_nc_ht=scontent-lga3-1.cdninstagram.com&se=8" onclick="OpenPicture();currentSlide(5)" class="hover-shadow cursor">
+        </div>
+        <div class="column_vedio">
+            <iframe width=100% height=100% padding: 30px src="https://www.youtube.com/embed/2qfXLcNY4Do" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+    </div>
+    <div id="AllPictures" class="Pictures">
+        <span class="close cursor" onclick="ClosePicture()">&times;</span>
+        <!--&times is 乘號 "x"-->
+        <div class="PicturesContent">
+            <div class="mySlides">
+                <div class="numbertext">1 / 6</div>
+                <img src="https://farm2.staticflickr.com/1893/42652857310_663c543185_c.jpg" style="width:100%">
+            </div>
+            <div class="mySlides">
+                <div class="numbertext">2 / 6</div>
+                <img src="https://scontent-ams3-1.cdninstagram.com/vp/4240b5e6b2ed8c78e015e9d19d550a8d/5D096029/t51.2885-15/e35/25015653_374617359646858_58321055969705984_n.jpg?_nc_ht=scontent-ams3-1.cdninstagram.com&se=8&ig_cache_key=MTY4MDI5MzE4MzI5OTE3NzgwNg%3D%3D.2"
+                    style="width:100%">
+            </div>
+            <div class="mySlides">
+                <div class="numbertext">3 / 6</div>
+                <img src="http://farm1.staticflickr.com/920/42950201804_338ca8b00d_c.jpg" style="width:100%">
+            </div>
+            <div class="mySlides">
+                <div class="numbertext">4 / 6</div>
+                <img src="https://img.auntie.tw/uploads/20180622171713_12.jpg" style="width:100%">
+            </div>
+            <div class="mySlides">
+                <div class="numbertext">5 / 6</div>
+                <img src="https://scontent-lga3-1.cdninstagram.com/vp/b93466ff8624508f05a62979a067c9e0/5CD35682/t51.2885-15/e35/46122927_311011619510010_5732116889358655533_n.jpg?_nc_ht=scontent-lga3-1.cdninstagram.com&se=8" style="width:100%">
+            </div>
+            <div class="mySlides">
+                <div class="numbertext">6 / 6</div>
+                <img src="https://scontent-frx5-1.cdninstagram.com/vp/55e681929720cb378b0bc0d24b1915af/5CF785B9/t51.2885-15/e35/47692216_227751864818604_5994643501343726753_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com&se=8&ig_cache_key=MTk1NTkwMDUyNzI1NTg3NDE5NA%3D%3D.2"
+                    style="width:100%">
+            </div>
+            <div class="mySlides_loading">
+                <img src="https://steamusercontent-a.akamaihd.net/ugc/94975006418622912/233D4AE90ECC33D9DC9CEE1649979D10BB1159B0/?interpolation=lanczos-none&output-format=jpeg&output-quality=95&fit=inside%7C1024%3A768&composite-to=*,*%7C1024%3A768&background-color=black"
+                    style="width:100%">
+            </div>
+
+
+            <a class="prev" onclick="plusSlides(-1)">
+                <div id="content_prev">&#10094;</div>
+            </a>
+            <a class="next" onclick="plusSlides(1)">
+                <div id="content_next">&#10095;</div>
+            </a>
+
+            <div class="caption-container">
+                <p id="caption"></p>
+            </div>
+
+
+            <div class="test_column">
+                <img class="demo cursor" src="https://scontent-frx5-1.cdninstagram.com/vp/55e681929720cb378b0bc0d24b1915af/5CF785B9/t51.2885-15/e35/47692216_227751864818604_5994643501343726753_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com&se=8&ig_cache_key=MTk1NTkwMDUyNzI1NTg3NDE5NA%3D%3D.2"
+                    onclick="currentSlide(6)" alt="莊家班麻油雞">
+            </div>
+            <div class="test_column">
+                <img class="demo cursor" src="https://scontent-lga3-1.cdninstagram.com/vp/b93466ff8624508f05a62979a067c9e0/5CD35682/t51.2885-15/e35/46122927_311011619510010_5732116889358655533_n.jpg?_nc_ht=scontent-lga3-1.cdninstagram.com&se=8" onclick="currentSlide(5)"
+                    alt="高和食堂">
+            </div>
+
+            <div class="test_column">
+                <img class="demo cursor" src="https://img.auntie.tw/uploads/20180622171713_12.jpg" onclick="currentSlide(4)" alt="吉屋食堂">
+            </div>
+            <div class="test_column">
+                <img class="demo cursor" src="http://farm1.staticflickr.com/920/42950201804_338ca8b00d_c.jpg" onclick="currentSlide(3)" alt="佐藤咖哩">
+            </div>
+            <div class="test_column">
+                <img class="demo cursor" src="https://scontent-ams3-1.cdninstagram.com/vp/4240b5e6b2ed8c78e015e9d19d550a8d/5D096029/t51.2885-15/e35/25015653_374617359646858_58321055969705984_n.jpg?_nc_ht=scontent-ams3-1.cdninstagram.com&se=8&ig_cache_key=MTY4MDI5MzE4MzI5OTE3NzgwNg%3D%3D.2"
+                    onclick="currentSlide(2)" alt="屋琥甜冰品">
+            </div>
+            <div class="test_column">
+                <img class="demo cursor" src="https://farm2.staticflickr.com/1893/42652857310_663c543185_c.jpg" onclick="currentSlide(1)" alt="合歡刀削麵">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

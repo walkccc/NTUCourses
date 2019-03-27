@@ -1,0 +1,3 @@
+run:
+	clear
+	NuSMV -int

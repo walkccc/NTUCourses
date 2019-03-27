@@ -1,0 +1,280 @@
+% !TEX program = xelatex
+\documentclass[15pt]{extarticle}
+\usepackage{/Users/Jay/LaTeX/cs}
+\usepackage{/Users/Jay/LaTeX/xeCJK}
+\usepackage{/Users/Jay/LaTeX/slashbox}
+
+\newcommand{\hmwkClass}{演算法設計方法論(Design Strategies for Computer Algorithms)}
+\newcommand{\hmwkTitle}{Homework 1}
+\newcommand{\hmwkDueDate}{October 30, 2017}
+\newcommand{\tb}{\textbf}
+
+\begin{document}
+
+\thispagestyle{empty}
+\section*{\hmwkClass \\
+    \normalsize{\hmwkTitle} \\
+    \normalsize{DUE DATE: \hmwkDueDate}
+}
+
+\hfill \textbf{學號：b03902129 \, 系級：資工四 \, 姓名：陳鵬宇} \\
+
+\section{問題定義}
+
+\textit{The string-to-string correction problem} 是要解決以下的問題：\\
+
+\begin{minipage}[t][][t]{0.06\textwidth}
+\textbf{輸入}：
+\end{minipage}
+\begin{minipage}[t][][t]{0.9\textwidth}
+字串 $A = a_1a_2, \dots, a_{|A|}$ 和字串 $B = b_1b_2, \dots, b_{|B|}$，
+其中 $|A|$ 和 $|B|$ 分別為字串 $A$ 和 $B$ 的長度。\\
+\end{minipage}
+
+\begin{minipage}[t][][t]{0.06\textwidth}
+\textbf{輸出}：
+\end{minipage}
+\begin{minipage}[t][][t]{0.9\textwidth}
+將字串 $A$ \textit{edit} 至字串 $B$ 花費最少的 sequense $S$, 其中 $S = s_1s_2,\dots,s_{|S|}$，$|S|$ 為 $S$ 的長度，$S$ 有以三種 \textit{edit} 方式：
+\begin{enumerate}
+    \item 改變(\textit{change}): 將字串 $A$ 的一個字元改變成另一個字元。
+    \item 刪除(\textit{delete}): 將字串 $A$ 的一個字元刪除。
+    \item 插入(\textit{insert}): 在字串 $A$ 中插入一個字元。
+\end{enumerate}
+\end{minipage}
+
+\section{名詞、性質及定義}
+
+%2.1
+\subsection{Edit Distance}
+
+%2.1.1
+\subsubsection{{$A$}'s properties and notations}
+
+先給定以下 $A$ 的一些性質及表示法，方便讀者理解：
+\begin{itemize}
+    \item $A$ 為一個\uline{長度有限}的字串
+    \item $a_i$ 為 $A$ 的第 $i$ 個字元
+    \item $A_{i..j} = a_ia_{i + 1}, \dots, a_{j}$
+    \item 當 $i > j$ 時，$A_{i..j}$ 為空字串(null string)
+    \item $|A|$ 為字串 $A$ 的長度
+    \item $A_0 = A$
+\end{itemize}
+
+%2.1.2
+\subsubsection{\textit{edit operation}}
+
+\textbf{\uline{定義}}： 
+
+\begin{center}
+\textit{edit operation}: $a\to b$ ,若 $A=XaY$ 可透過 \textit{operation} $a \to b$ 變成 $B = XbY$ ($X$ 和 $Y$ 為字串)。
+\end{center}
+
+我們用 $A \Rightarrow B$ \textit{via} $a \to b$ 表示之，其中$0 \le |a| \le 1$, $0 \le |b| \le 1$.
+
+根據問題定義所敘述，同樣地，\textit{edit operation}: $a \to b$ 也有三種 \textit{edit} 方式：
+\begin{enumerate}
+    \item 改變(\textit{change}): change $a$ to $b$, 其中 $a \ne \varnothing$ 且 $b \ne \varnothing$
+    \item 刪除(\textit{delete}): delete $a$, 其中 $b = \varnothing$ 
+    \item 插入(\textit{insert}): insert $b$, 其中 $a = \varnothing$
+\end{enumerate}
+
+%2.1.3
+\subsubsection{\textit{edit sequence} $S$}
+
+\textbf{\uline{定義}}：
+
+\begin{center}
+    \textit{edit sequence} $S = s_1s_2, \dots, s_m$ \mbox{ 且 } $AS = B$,
+\end{center}
+
+$s_i$ 是一個 \textit{edit operation}: $a \to b$, $\forall i, 1 \le i \le m$；
+而 $AS = B$ 代表：透過 \textit{edit sequence} $S$, $A$ 會被 \textit{edit} 成 $B$，如下所示：
+
+\begin{align*}
+    A &= A_0 \\
+    A_0s_1 &= A_1 \\
+    A_0s_1s_2 = A_1s_2 &= A_2 \\
+    &\vdots \\
+    A_0s_1s_2, \dots,s_{m - 1} = A_{m - 2}s_{m - 1} &= A_{m - 1} \\
+    A_0s_1s_2, \dots,s_{m - 1}s_m = A_{m - 1}s_m &= A_m = B \\
+\end{align*}
+
+此外，我們說 $S$ \textit{takes} $A$ to $B$，如果存在一個 $S$ 可以將 $A$ \textit{edit}成 $B$
+
+%2.1.4
+\subsubsection{cost function $\gamma$ and \textit{edit distance} $\delta(A, B)$} 
+
+\textbf{\uline{定義}}：
+
+\begin{center}
+    cost function $\gamma(a \to b)$：對每一個\textit{edit operation} $a \to b$，我們賦與它一個\uline{非負}的實數。 
+\end{center}
+
+因為\textit{edit sequence} $S = s_1s_2, \dots, s_m$ 是由 $m$ 個 \textit{edit operations}所組成的，所以我們\textbf{\uline{定義}}：
+
+\begin{center}
+    cost function $\gamma(S) = \sum_{i = 1}^m\gamma(s_i) = \gamma(s_1) + \gamma(s_2) + \cdots + \gamma(s_m).$
+\end{center}
+
+但這樣的結果我們仍不滿意，我們希望能找到\uline{最小的} cost function，所以我們\textbf{\uline{定義}}：
+
+\begin{center}
+\textit{edit distance} $\delta(A, B) = \min\{\gamma(S)\mid$ \text{$S$ 為可以將 $A$ edit成 $B$ 的某一\textit{edit sequence}}\}.
+\end{center}
+
+我們題目的輸出就是希望能夠使上述的\textit{edit distance} $\delta(A, B)$ 擁有最小cost的 $S$。
+
+%2.2
+\subsection{Traces $T$}
+
+%2.2.1
+\subsubsection{cost function of $T$}
+
+\textbf{\uline{定義}}：
+
+\begin{center}
+cost function $\gamma(T_{A\to B})$,
+\end{center}
+
+其中$T_{A\to B}$為由$A$連到$B$的軌跡(\textit{trace})，它有以下兩種性質：
+\begin{enumerate}
+    \setlength\itemindent{1cm}
+    \item [\textbf{(性質1)}] 對所有$T_{A\to B}$，存在一個\textit{edit sequence} $S$ \textit{taking} $A$ to $B$，使得：
+    $$\gamma(S)=\gamma(T_{A\to B}).$$
+    
+    \item [\textbf{(性質2)}] 對所有\textit{edit sequence} $S$ \textit{taking} $A$ to $B$，存在一個$T_{A\to B}$，使得：
+    $$\gamma(T_{A\to B})\le\gamma(S).$$
+\end{enumerate}
+
+所以我們知道 
+
+\begin{center}
+$\delta(A,B)=\min(\gamma(T_{A\to B}))$.
+\end{center} 
+
+\newpage
+\section{解法敘述}
+%3.1
+\subsection{Computation of Edit Distance}
+%3.1.1
+\subsubsection{Dynamic Progamming}
+% 給定$T_{A\to B}$, $A=A_1A_2$, $B=B_1B_2$, 並且假設$T_{A\to B}$中沒有任何一條線會由$A_i$連到$B_j$, $i\ne j$, $i,j\in\{1,2\}$，所以我們有：
+
+% $$(T_{A\to B},A,B)=(T_1,A_1,B_1)\circ(T_2,A_2,B_2).$$
+
+透過觀察，我們可以發現其實\textit{change}等於\textit{delete}後再\textit{insert}，所以
+\[\gamma(a\to b)=\gamma(a\to\varnothing)+\gamma(\varnothing\to b)\tag{*}
+\]
+
+現在要來尋找將$A$ \textit{edit}成$B$花費最少的$S$。
+由式(*)，我們給定以下的花費函數(cost function)：
+
+\begin{itemize}
+    \item 改變(\textit{change})：$\gamma(a\to b)=\$2$, 其中$a\ne b$
+    \item 刪除(\textit{delete})：$\gamma(a\to\varnothing)=\$1$
+    \item 插入(\textit{insert})：$\gamma(\varnothing\to b)=\$1$
+    \item 不變(\textit{doNothing})：$\gamma(a\to b)=\$0$, 其中$a=b$
+\end{itemize}
+
+將一個字串$A=a_1a_2\dots a_i$ \textit{edit}成字串$B=b_1b_2\dots b_j$的\textit{edit distance} $\delta(A,B)$用動態規劃的方式寫成：
+\begin{align*}
+    \delta(A,B)=\delta(A_{1..i},B_{1..j}) = \min\{& \delta(A_{1..i-1},B_{1..j-1})+\delta(a_i\to b_j), \\
+    & \delta(A_{1..i-1},B_{1..j})+\delta(a_i\to\varnothing), \\
+    & \delta(A_{1..i},B_{1..j-1})+\delta(\varnothing\to b_j)\}.
+\end{align*}
+
+舉例來說，假設我們有兩字串$A="alignment"$和$B=
+algorithm"$，我們想要把$A$ \textit{edit}成$B$，
+
+可以畫出如下的花費表格（\textit{doNothing}: $\nwarrow$, \textit{delete}: $\uparrow$, \textit{insert}: $\leftarrow$）：
+
+（因為\textit{change}是由\textit{delete}和\textit{insert}所組成的，所以我們省去此\textit{edit operation}）
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|} 
+\hline
+\backslashbox[1mm]{$A$}{$B$} & $\varnothing$ & a & l & g & o & r & i & t & h & m \\ 
+\hline
+$\varnothing$ & \cellcolor{gray}$0,\emptyset$ & $1,\leftarrow$ & $2,\leftarrow$ & $3,\leftarrow$ & $4,\leftarrow$ & $5,\leftarrow$ & $6,\leftarrow$ & $7,\leftarrow$ & $8,\leftarrow$ & $9,\leftarrow$ \\
+\hline
+a & $1,\uparrow$ & \cellcolor[gray]{0.8}$0,\nwarrow$ & $1,\leftarrow$ & $2,\leftarrow$ & $3,\leftarrow$ & $4,\leftarrow$ & $5,\leftarrow$ & $6,\leftarrow$ & $7,\leftarrow$ & $8,\leftarrow$ \\
+\hline
+l & $2,\uparrow$ & $1,\uparrow$ & \cellcolor[gray]{0.8}$0,\nwarrow$ & $1,\leftarrow$ & $2,\leftarrow$ & $3,\leftarrow$ & $4,\leftarrow$ & $5,\leftarrow$ & $6,\leftarrow$ & $7,\leftarrow$ \\
+\hline
+i & $3,\uparrow$ & $2,\uparrow$ & \cellcolor[gray]{0.8}$1,\uparrow$ & $2,\leftarrow$ & $3,\leftarrow$ & $4,\leftarrow$ & $3,\nwarrow$ & $4,\leftarrow$ & $5,\leftarrow$ & $6,\leftarrow$ \\
+\hline
+g & $4,\uparrow$ & $3,\uparrow$ & $2,\uparrow$ & \cellcolor[gray]{0.8}$1,\nwarrow$ & $2,\leftarrow$ & $3,\leftarrow$ & $4,\leftarrow$ & $5,\leftarrow$ & $6,\leftarrow$ & $7,\leftarrow$ \\
+\hline
+n & $5,\uparrow$ & $4,\uparrow$ & $3,\uparrow$ & \cellcolor[gray]{0.8}$2,\uparrow$ & $3,\leftarrow$ & $4,\leftarrow$ & $5,\leftarrow$ & $6,\leftarrow$ & $7,\leftarrow$ & $8,\leftarrow$ \\
+\hline
+m & $6,\uparrow$ & $5,\uparrow$ & $4,\uparrow$ & \cellcolor[gray]{0.8}$3,\uparrow$ & $4,\leftarrow$ & $5,\leftarrow$ & $6,\leftarrow$ & $7,\leftarrow$ & $8,\leftarrow$ & $7,\nwarrow$ \\
+\hline
+e & $7,\uparrow$ & $6,\uparrow$ & $5,\uparrow$ & \cellcolor[gray]{0.8}$4,\uparrow$ & $5,\leftarrow$ & $6,\leftarrow$ & $7,\leftarrow$ & $8,\leftarrow$ & $9,\leftarrow$ & $8,\uparrow$ \\
+\hline
+n & $8,\uparrow$ & $7,\uparrow$ & $6,\uparrow$ & \cellcolor[gray]{0.8}$5,\uparrow$ & \cellcolor[gray]{0.8}$6,\leftarrow$ & \cellcolor[gray]{0.8}$7,\leftarrow$ & \cellcolor[gray]{0.8}$8,\leftarrow$ & $9,\leftarrow$ & $10,\leftarrow$ & $9,\uparrow$ \\
+\hline
+t & $9,\uparrow$ & $8,\uparrow$ & $7,\uparrow$ & $6,\uparrow$ & $7,\leftarrow$ & $8,\leftarrow$ & $9,\leftarrow$ & \cellcolor[gray]{0.8}$8,\nwarrow$ & \cellcolor[gray]{0.8}$9,\leftarrow$ & \cellcolor[gray]{0.8}$10,\leftarrow$ \\
+\hline
+
+\end{tabular}
+\end{center}
+
+由表格知$\delta(A, B) = \delta("alignment", "algorithm") = 10$；透過 backtracking 可寫出由 $A$ \textit{edit} 到 $B$ 的過程：
+
+\begin{align}
+\text{alignment.$delete$(i)} &= \text{algnment}  \\
+\text{algnment.$delete$(n)} &= \text{algment}  \\
+\text{algment.$delete$(m)} &= \text{algent}  \\
+\text{algent.$delete$(e)} &= \text{algnt}  \\
+\text{algnt.$delete$(n)} &= \text{algt}  \\
+\text{algt.$insert$(o)} &= \text{algot}  \\
+\text{algot.$insert$(r)} &= \text{algort}  \\
+\text{algort.$insert$(i)} &= \text{algorit}  \\
+\text{algorit.$insert$(h)} &= \text{algorith}  \\
+\text{algorith.$insert$(m)} &= \text{algorithm}  
+\end{align}
+
+當然這不是唯一解，在我的演算法中在計算 $\delta$ 的 $\min$ 要取哪一項若發生等於的情況，會優先選擇\textit{insert operation}，但不論選擇哪一項符合$\min$的\textit{edit operation}，$\delta(A,B)$都會等於10。\\
+
+在這個例子中，$S=d_id_nd_md_ed_ni_oi_ri_ii_hi_m$, $|S|=10$, 其中$d$和$i$分別代表刪除(\textit{delete})和插入(\textit{insert})，下標的英文字母代表為對哪個字元作操作。\\
+
+因為此演算法要將整個動態規劃的表格填滿，故時間複雜度為$O(|A|\times|B|)$。
+
+\section{讀後心得}
+
+在閱讀完$\langle$The String-to-String Correction Problem$\rangle$後，我對於字串之間的操作有了更進一步的了解，很佩服原作者Robert A. Wagner和Michael J. Fischer能夠在1974年這個資訊還不是很普及的時候，提出了這樣一篇強而有力的論文，他們提出\textit{edit distance}這個概念，讓字串間的操作有了新的理解，並且定義了花費函數(cost function)，讓問題變得更加明確「找出$\delta(A,B)$和對應的$S$」。\\
+
+在寫這份報告同時，也上網查了很多有關的例子，發現許多有趣的應用，像是生物的基因比對、git上面的diff指令、經典的\textit{Longest Common Subsequence(LCS)}問題等等。\\
+
+此篇論文中有提到 $\delta(A,B)$ 的概念，說的白話一點就是我們不只希望能找到由$A$ \textit{edit}到$B$的過程（$S$），同時我們還希望這個\textit{edit distance}是\textit{minimum}的，假設當我們看到以下三個基因序列 ：
+
+\begin{enumerate}
+    \item AGCCT
+    \item AACCT
+    \item ATCT
+\end{enumerate}
+
+我們可能可以很直覺的說「2.和1.的相似程度比3.和1.還要高」，但能夠這樣用肉眼看出是因為我們舉的例子還很小，「肉眼」還感覺的出差異性，但一但我們的序列變得更長，不再是屬於同一個數量級別時，如何有一個有效的量化標準就變得很重要了，正好\textit{minimum edit distance}$\delta(A,B)$就能完成這件事。若要比較兩個基因序列$A="CTTAACT"
+$和$B="CGGATCAT"$的相似程度，我們可以透過計算\textit{edit distance} $\delta(A,B)=\delta("CTTAACT","CGGATCAT")$，來做為一個標準，當$\delta(A,B)$較小時，這代表這兩個基因序列相似程度高；反之，代表相似程度低。\\
+
+\textit{edit distance}演算法的時間複雜度是$O(|A||B|)=O(n^2)$，但人總是希望能夠做的更好，而2015年MIT的一篇論文$\langle$Edit Distance Cannot Be Computed in Strongly Subquadratic Time
+(unless SETH is false)∗ $\rangle$就有提到這個時間複雜度是無法再被下降的。\\
+
+在這個資訊蓬勃發展的二十一世紀，\textit{edit distance}或許已經稱不上什麼太高深的演算法，但是它歷久而彌新，在現今很多的應用中都能看見它的影子，並且默默的推動著Computer Science的發展。
+
+\section{參考資料}
+\begin{enumerate}[label={[\arabic*]}, noitemsep]
+    \item \href{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.367.5281&rep=rep1&type=pdf}{$\langle$The String-to-String Correction Problem$\rangle$}
+    \item \href{https://arxiv.org/pdf/1412.0348.pdf}{$\langle$Edit Distance Cannot Be Computed in Strongly Subquadratic Time
+(unless SETH is false)∗$\rangle$}
+    \item \href{https://en.wikipedia.org/wiki/Edit_distance}{Edit distance - Wikipedia}
+    \item \href{https://en.wikipedia.org/wiki/Sequence_alignment}{Sequence alignment - Wikipedia} 
+    \item \href{https://en.wikipedia.org/wiki/Levenshtein_distance}{Levenshtein distance - Wikipedia}
+    \item \href{https://en.wikipedia.org/wiki/String-to-string_correction_problem}{String-to-string correction problem - Wikipedia}
+    \item \href{https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/}{The Myers diff algorithm: part 1 – The If Works}
+    \item \href{http://cpmarkchang.logdown.com/posts/222651-minimum-edit-distance}{自然語言處理 -- Minimum Edit Distance}
+    
+    
+\end{enumerate}
+\end{document}

@@ -1,0 +1,12 @@
+.todo-app__header {
+    margin-bottom: 1em;
+}
+
+.todo-app__title {
+    font-size: 100px;
+    font-weight: 100;
+    text-align: center;
+    color: lightblue;
+    margin: 0;
+    padding: 0;
+}

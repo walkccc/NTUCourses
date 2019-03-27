@@ -1,0 +1,89 @@
+/* reset */
+:root { font: 20px / 1.2 "Roboto", sans-serif; }
+
+body,
+body * {
+  margin:     unset;
+  box-sizing: unset;
+  padding:    unset;
+  font-size:  unset;
+  color:      unset;
+}
+
+article {
+	padding-top: 0.5in;
+	display: grid;
+	grid-template-columns: 1fr 0.5in [start] 1.25in 5in 1.25in [end] 0.5in 1fr;
+}
+
+article * { grid-column: start / end; }
+
+@media (max-width: 8.5in) {
+	article { grid-template-columns: 1fr 5% [start] 15% 60% 15% [end] 5% 1fr; }
+}
+
+figure * { display: block; }
+img { width: 100%; }
+
+figcaption {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;    
+}
+
+h1           { font: 700 2.0rem / 1.2 "Roboto"; color: hsl(000, 000%, 33%); }
+h2           { font: 400 1.5rem / 1.2 "Roboto"; color: hsl(120, 000%, 50%); }
+h3           { font: 700 1.2rem / 1.2 "Roboto"; color: hsl(120, 000%, 50%); }
+h4           { font: 700 1.0rem / 1.2 "Roboto"; color: hsl(120, 100%, 67%); }
+h5           { font: 700 0.8rem / 1.2 "Roboto"; color: hsl(120, 100%, 83%); }
+h6           { font: 700 0.5rem / 1.2 "Roboto"; color: hsl(120, 100%, 100%); }
+
+p            { font: 400 1.0rem / 1.5 "Roboto"; color: hsl(000, 000%, 33%); }
+figcaption p { font: 400 1.0rem / 1.5 "Roboto"; color: hsl(000, 000%, 83%); }
+
+@media (max-width: 8.5in) { :root { font-size: 18px; } }
+@media (max-width: 5.0in) { :root { font-size: 16px; } }
+
+a, a:visited, a:active {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+	position: relative;
+  transition: 0.5s color ease;
+	text-decoration: none;
+	color:#81B3D2;
+}
+
+a:hover {
+  color: #1E88A8;
+}
+
+input {
+  /* width: 360px; */
+  background: #fff;
+  font: inherit;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .1);
+  border: 0;
+  outline: 0;
+  padding: 22px 18px;
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+}
+
+ul, ol {
+  list-style-position: inside;
+}
+
+#title {
+  font-family: Raleway;
+  margin: 0;
+  padding: 0;
+	font-size: 23px;
+	font-weight: 800;
+  text-align: center;
+	border-bottom: 2px solid #f1f1f1;
+	padding-top: .1in;
+	padding-bottom: .1in;
+}

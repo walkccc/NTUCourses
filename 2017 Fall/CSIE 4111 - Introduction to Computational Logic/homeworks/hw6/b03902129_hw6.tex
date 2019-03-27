@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{cs}
+\newcommand\floor[1]{\lfloor#1\rfloor}
+\newcommand\ceil[1]{\lceil#1\rceil}
+\begin{document}
+
+\section*{Introduction to Computational Logic \\ \normalsize{Homework 6}}
+\normalsize{DUE DATE: JANUARY 3, 2018} \hfill \textbf{學號：b03902129 \, 系級：資工四 \, 姓名：陳鵬宇} \\
+
+\begin{enumerate}
+    \item [(1)] Show $\phi\textbf{U}\psi\equiv\psi\textbf{R}(\phi\lor\psi)\land\textbf{F}\psi$ using semantic equivalences.
+    
+    Since $\phi\textbf U\psi\equiv\phi\textbf W\psi\land F\psi,$ it remains to prove that $\phi\textbf W\psi\equiv\psi\textbf{R}(\phi\lor\psi)$ and it's in the problem (2).
+
+    \item [(2)] Show $\phi\textbf{W}\psi\equiv\psi\textbf{R}(\phi\lor\psi)$ from definitions.
+    \begin{itemize}
+        \item $\phi\textbf{W}\psi\to\psi\textbf{R}(\phi\lor\psi).$ Suppose $\pi\vDash\phi\textbf{W}\psi$. Then there are two conditions:
+        \begin{enumerate}
+            \item Either there is some $i\ge 0$ such that $\pi^i\vDash\psi$ and for all $0\le j< i$ we have $\pi^j\vDash\phi$;
+            \item or for all $k\ge0$ we have $\pi^k\vDash\phi$.
+        \end{enumerate}
+        In case (a), there is a minimal such $i$, say $i_0$, and so $\pi^{i_0}\vDash\psi$ and, for all $0 \le j < i_0,$ $\pi^j\nvDash\psi$ and $\pi^j\vDash\phi$, hence $\pi\vDash\psi\textbf{R}(\phi\lor\psi).$ \\        
+        In case (b), $\pi^k\vDash\phi$ for all $k\ge0$, hence $\pi\vDash\psi\textbf{R}(\phi\lor\psi).$ \\
+        Therefore, we have proved that in both case (a) and case (b), $\pi\vDash\psi\textbf{R}(\phi\lor\psi).$
+        \item $\phi\textbf{W}\psi\leftarrow\psi\textbf{R}(\phi\lor\psi).$ Suppose $\pi\vDash\psi\textbf{R}(\phi\lor\psi)$. Then there are two conditions:
+        \begin{enumerate}
+            \item Either there is some $i\ge0$ such that $\pi^i\vDash\psi$ and for all $0\le j\le i$ we have $\pi^i\vDash\phi\lor\psi$;
+            \item or for all $k\ge0$ we have $\pi^k\vDash\phi\lor\psi$
+        \end{enumerate}
+        In case (a), there is a minimal such $i$, say $i_0$, and so $\pi^{i_0}\vDash\psi$ and, for all $0\le j< i_0$, $\pi^j\nvDash\psi$ and $\pi^j\vDash\phi$; in particular, $\pi^0\vDash\phi$ i.e. $\pi\vDash\phi$, hence $\pi\vDash\phi\textbf W\psi.$ \\
+        In case (b), either $\pi^k\vDash\phi$ for all $k\ge0$, and hence $\pi\vDash\phi\textbf{W}\psi$; or there is $h\ge0$ such that $\pi^h\nvDash\phi$ and $\pi^h\vDash\psi$, hence there is a minimal such $h$, say $h_0$, and so $\pi^i\vDash\phi$ for all $0\le i<h_0$, thus $\pi\vDash \phi\textbf{W}\psi.$ \\
+        Therefore, we have proved that in both case (a) and case (b), $\pi\vDash \phi\textbf{W}\psi.$
+
+    \end{itemize}
+    
+    \item [(3)] Give a model $\mathcal M=(S,\to,L)$ and $s\in S$ such that $\mathcal M,s\vDash\textbf{AF}(\phi\lor\psi)$ but $\mathcal M,s\nvDash\textbf{AF}\phi\lor\textbf{AF}\psi.$
+    Let $\mathcal M = (S, \to, L)$ with $S=\{s_0, s_1, s_2\}, \to=\{(s_0,s_1),(s_0,s_2),(s_1,s_1),(s_2,s_2)\},$ and $L(s_0)=\emptyset,L(s_1)=\{\phi\}$, and $L(s_2)=\{\psi\}$ in below:
+
+    
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+            semithick]
+        \node[initial,state] (s0)    {$s_0,\emptyset$};
+        \node[state] (s1)    [below left of=s0]{$s_1, \{\phi\}$};
+        \node[state] (s2)    [below right of=s0]{$s_2, \{\psi\}$};
+
+        \path
+            (s0) edge             node {} (s1)
+            (s0) edge             node {} (s2)
+            (s1) edge [loop left]  node {} (s1)
+            (s2) edge [loop right] node {} (s2)    
+        ;
+
+    \end{tikzpicture}
+
+    For each path that starts in state $s_0$ we have that $\textbf{AF}(\phi\lor\psi)$ holds. This follows directly from the fact that each path
+    visits either state $s_1$ or state $s_2$ eventually, and $s_1\vDash(\phi\lor\psi)$ and $s_2\vDash(\phi\lor\psi).$ 
+    
+    However, state $s_0$ does not satisfy $\textbf{AF}\phi\lor\textbf{AF}\psi.$ For instance, path $s_0(s_1)^\omega\vDash\textbf F\phi$ but $s_0(s_1)^\omega\nvDash\textbf F\psi.$ Thus, $\mathcal M, s_0\nvDash\textbf{AF}\psi$. By a similar reasoning applied
+    to path $s_0(s_2)^\omega$ it follows $\mathcal M, s_0\nvDash\textbf{AF}\phi.$ Thus, $\mathcal M, s_0\nvDash\textbf{AF}\phi\lor\textbf{AF}\psi.$
+
+    \item [(4)] Express the following statement in $CTL^*$:
+    \begin{center}
+        "the event $p$ is never true between the event $q$ and $r$ on a path."
+    \end{center}
+    $[\textbf{AG}(q\to\neg\textbf{EF}(p\land\textbf{EF}r))]\land[\textbf{AG}(r\to\neg\textbf{EF}(p\land\textbf{EF}q))].$
+
+    % $[\textbf{AG}(q\to\textbf{A}\neg p\textbf{W}r)]\land[\textbf{AG}(r\to\textbf{A}\neg p\textbf{W}q)].$
+
+    \newpage
+    \item [(5)] Show $\textbf{AGF}p$ and $\textbf{AGEF}p$ specify different properties.
+
+    Give a model $\mathcal M = (S, \to, L)$ with $S=\{s_0, s_1\}, \to=\{(s_0,s_0),(s_0,s_1),(s_1,s_1)\},$ and $L(s_0)=\emptyset$, and $L(s_1)=\{p\}$ in below:
+
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+        semithick]
+    \node[initial,state] (s0)    {$s_0, \emptyset$};
+    \node[state] (s1)   [right of=s0]{$s_1, \{p\}$};
+
+    \path
+        (s0) edge              node {} (s1)
+        (s0) edge [loop above] node {} (s0)
+        (s1) edge [loop above] node {} (s1)
+    ;
+    \end{tikzpicture}
+
+    The formula $\textbf{AGF}p$ is true in model $\mathcal M$ at state $s_0$ if from every state on every path
+    from $s_0(\textbf{AG})$, $p$ is eventually true$(\textbf F p)$ on that same path, and $s_0^{\omega_0}$ doesn't hold.
+
+    The formula $\textbf{AGEF}p$ is true in model $\mathcal M$ at state $s_0$ if from every state on every path from $s_0(\textbf{AG})$, there exists a path on which $p$ is eventually true($\textbf{EF}p$), and $s_0(s_1)^{\omega_1}$ holds.    
+
+    Thus $\mathcal M, s_0\nvDash\textbf{AGF}p$ but $\mathcal M, s_0\vDash\textbf{AGEF}p$. 
+
+\end{enumerate}
+
+\end{document}

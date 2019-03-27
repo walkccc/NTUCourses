@@ -1,0 +1,136 @@
+/* Blog slider start
+  ============================================================================================ */
+.blog__slide{
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+
+  &__content{
+    padding: 30px 15px;
+
+    h3,a{
+      color: $title-color;
+    }
+
+    p{
+      font-size: 15px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__label{
+    font-size: 13px;
+    color: $primary-color !important;
+    text-transform: uppercase;
+    background: $black;
+    padding: 4px 40px;
+    margin-bottom: 18px;
+  }
+}
+
+.blog-slider{
+  position: relative;
+
+  .blog-slider__leftArrow{
+    position: absolute;
+    top: 22%;
+    left: -12px;
+
+    @media(min-width: 1250px){
+      left: -105px;
+    padding: 0 25px 3px 10px;
+
+
+      &::after{
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #f5f9fc;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        transition: background .4s ease-out;
+      }
+  
+      &::before{
+        content: "";
+        display: block;
+        width: 40px;
+        height: 130%;
+        background: #fff;
+        position: absolute;
+        top: -2px;
+        left: -15px;
+        z-index: 2;
+        transform: rotate(-15deg);
+      }
+  
+      &:hover{
+        &::after{
+          background: $black;
+        }
+      }
+    }
+  }
+
+  .blog-slider__rightArrow{
+    position: absolute;
+    top: 22%;
+    right: -12px;
+
+    @media(min-width: 1250px){
+      right: -105px;
+      padding: 0 25px 3px 20px;
+
+
+      &::after{
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #f5f9fc;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        transition: background .4s ease-out;
+      }
+  
+      &::before{
+        content: "";
+        display: block;
+        width: 43px;
+        height: 135%;
+        background: #fff;
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        z-index: 2;
+        transform: rotate(15deg);
+      }
+  
+      &:hover{
+        &::after{
+          background: $black;
+        }
+      }
+    }
+  }
+
+  & .blog-slider__leftArrow,.blog-slider__rightArrow{
+    display: none;
+
+    @media(min-width: 580px){
+      display: block;
+    }
+    
+    img{
+      position: relative;
+      z-index: 10;
+    }
+  }
+}
+/* Blog slider end
+  ============================================================================================ */

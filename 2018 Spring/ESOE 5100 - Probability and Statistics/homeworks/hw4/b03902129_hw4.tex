@@ -1,0 +1,219 @@
+% !TEX program = xelatex
+\documentclass{article}
+\usepackage{/Users/jay/LaTeX/cs}
+\usepackage{xeCJK}
+
+\newcommand{\hmwkClass}{Probability and Statistics, Spring 2018}
+\newcommand{\hmwkTitle}{Homework 4}
+\newcommand{\hmwkDueDate}{May 14, 2018}
+\newcommand{\tb}{\textbf}
+
+\begin{document}
+
+\thispagestyle{empty}
+\section*{\hmwkClass \\
+    \normalsize{\hmwkTitle} \\
+    \normalsize{DUE DATE: \hmwkDueDate}
+}
+
+\hfill{B03902129 \, 資工四 \, 陳鵬宇}
+
+\begin{enumerate}
+    \item [\textbf{4.2.2}]
+
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+            \begin{align*}
+                \int_{-5}^7 2c(v + 5) dv & = 1 \\
+                (\frac{v^2}{2} + 5v) \Big|_{-5}^7 & = 1 / 2c \\
+                c & = 1 / 144.
+            \end{align*}
+
+        \item
+            \begin{align*}
+                \int_4^7 1 / 144 \cdot 2(v + 5) dv & = \frac{63}{144} = \frac{7}{16}.
+            \end{align*}
+
+        \item
+            \begin{align*}
+                \int_{-3}^0 1 / 144 \cdot 2(v + 5) dv & = \frac{7}{48}.
+            \end{align*}
+        \item
+            \begin{align*}
+                \int_{-5}^a 1 / 144 \cdot 2(v + 5) dv & = 1 / 3 \\
+                a^2 + 10a - 23 & = 0 \\
+                a & = -5 + 4\sqrt{3}.
+            \end{align*}
+
+    \end{enumerate}
+
+    \item [\textbf{4.3.3}]
+
+    $$
+    \frac{d F_U(u)}{du} = f_U(u) =
+    \begin{cases}
+        0     & u < -5, \\
+        1 / 8 & -5 \le u < -3, \\
+        0     & -3 \le u < 3, \\
+        3 / 8 & 3 \le u < 5, \\
+        0     & u \ge 5.
+    \end{cases}
+    $$
+
+    \item [\textbf{4.4.5}]
+
+    \begin{enumerate}[label=(\alph*)]
+    \item
+        $$
+        f_Y(y) =
+        \begin{cases}
+            1 / 2 & -1 \le y \le 1, \\
+            0     & \text{otherwise}.
+        \end{cases}
+        $$
+
+        $$\text E[Y] = \int_{-1}^1 y / 2 dy = 0.$$
+
+    \item
+        \begin{align*}
+            \text E[Y^2] & = \int_{-1}^1 \frac{y^2}{2} dy = 1 / 3, \\
+            \text{Var}[Y] & = \text E[Y^2] - \text E[Y]^2 = 1 / 3 - 0 = 1 / 3.
+        \end{align*}
+    \end{enumerate}
+
+    \item [\textbf{4.5.10}]
+
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+        $$
+        f_X(x) =
+        \begin{cases}
+            1 / 10 & -5 \le x \le 5, \\
+            0 & \text{otherwise}.
+        \end{cases}
+        $$
+
+        \item
+
+        $$
+        \int_{-5}^x \frac{1}{10} dy = \frac{x}{10} + \frac{1}{2}.
+        $$
+
+        $$
+        F_X(x) =
+        \begin{cases}
+            0 & x < -5 \\
+            \frac{x}{10} + \frac{1}{2} & -5 \le x \le 5 \\
+            1 & x > 5.
+        \end{cases}
+        $$
+
+        \item $$\text E[X] = 0.$$
+        \item $$\text E[X^5] = \int_{-5}^5 \frac{1}{10} x^5 dx = 0.$$
+        \item $$\text E[e^x] = \int_{-5}^5 e^x \frac{1}{10} dx = \frac{1}{10} (e^5 - e^{-5}).$$
+
+    \end{enumerate}
+
+    \item [\textbf{4.6.4}]
+
+    \begin{enumerate}[label=(\alph*)]
+        \item
+
+        \begin{align*}
+        \text P[Y \le 10] = 0.933 = \Phi(1.5) = \Phi(z) \\
+        \Rightarrow z = 1.5 = \frac{x - \mu}{\sigma} = \frac{10 - \mu}{10} \Rightarrow \mu = -5.
+        \end{align*}
+
+        \item
+
+        \begin{align*}
+        \text P[Y \le 0] = 0.067 = 1 - 0.933 = 1 - \Phi(1.5) = 1 - \Phi(z) = \Phi(-z) \\
+        \Rightarrow z = -1.5 = \frac{x - \mu}{\sigma} = \frac{0 - \mu}{10} \Rightarrow \mu = 15.
+        \end{align*}
+
+        \item
+
+        \begin{align*}
+        \text P[Y \le 10] = 0.977 \approx \Phi(1.99) = 0.9767 = \Phi(z) \\
+        \Rightarrow z = 1.99 = \frac{x - \mu}{\sigma} = \frac{10 - \mu}{\sigma} \Rightarrow \mu = 10 - 1.99\sigma.
+        \end{align*}
+
+        \item
+
+        \begin{align*}
+        \text P[Y > 5] = 1 - F_Y(5) = \frac{1}{2} \Rightarrow \mu = 5.
+        \end{align*}
+
+    \end{enumerate}
+    \item [\textbf{4.7.6}]
+
+    $$
+    F_X(x) =
+    \begin{cases}
+    1 - e^{-\lambda x} & x \ge 0, \\
+    0 & \text{otherwise}.
+    \end{cases}
+    $$
+
+    $$
+    f_X(x) = \frac{dF_X(x)}{dx} =
+    \begin{cases}
+    \lambda e^{-\lambda x} & x \ge 0, \\
+    0 & \text{otherwise}.
+    \end{cases}
+    $$
+
+    $$
+    \text E[X] = 3 = \frac{1}{\lambda} \Rightarrow \lambda = \frac{1}{3}.
+    $$
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item
+
+        Because $w = 60x$, $x = w / 60$.
+
+        $$
+        F_X(x) = 
+        \begin{cases}
+            1 - e^{-x / 3} & x \ge 0, \\
+            0 & \text{otherwise}.
+        \end{cases}
+        $$
+
+        $$
+        F_W(x) = 
+        \begin{cases}
+            1 - e^{-w / 180} & w \ge 0, \\
+            0 & \text{otherwise}.
+        \end{cases}
+        $$
+
+        \item
+
+        $$
+        f_W(w) = \frac{dF_W(w)}{dw} =
+        \begin{cases}
+        0.2 + 0.3 = 0.5 & w = 0 \\
+        \frac{1}{180} e^{-w / 180} & w > 0, \\
+        0 & \text{otherwise}.
+        \end{cases}
+        $$
+
+        \item
+
+        \begin{align*}
+            \text E[W] & = \int_0^\infty \frac{1}{180} e^{-w / 180} w dw & (\text{let } \frac{-w}{180}\Big|_0^\infty = t\Big|_0^{-\infty}) \\
+                       & = \int_0^{-\infty} (-t)e^t (-180 dt) \\
+                       & = 180.
+        \end{align*}
+
+        \begin{align*}
+            \text{Var}[W] & = \text E[W^2] - (\text E[W])^2 \\
+                          & = \int_0^\infty f(w) w^2 dw - (\text E[W])^2 \\ 
+                          & = \int_0^\infty \frac{1}{180} e^{-w / 180} w^2 dw - 180^2 \\
+                          & = 32400.
+        \end{align*}
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}

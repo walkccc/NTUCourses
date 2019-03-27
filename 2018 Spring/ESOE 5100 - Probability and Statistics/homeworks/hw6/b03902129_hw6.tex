@@ -1,0 +1,202 @@
+% !TEX program = xelatex
+\documentclass{article}
+\usepackage{/Users/jay/LaTeX/cs}
+\usepackage{/Users/jay/LaTeX/xeCJK}
+
+\newcommand{\hmwkClass}{Probability and Statistics, Spring 2018}
+\newcommand{\hmwkTitle}{Homework 6}
+\newcommand{\hmwkDueDate}{June 4, 2018}
+\newcommand{\tb}{\textbf}
+
+\begin{document}
+
+\thispagestyle{empty}
+\section*{\hmwkClass \\
+    \normalsize{\hmwkTitle} \\
+    \normalsize{DUE DATE: \hmwkDueDate}
+}
+
+\hfill{B03902129 \, 資工四 \, 陳鵬宇}
+
+\begin{enumerate}
+    \item [6.1.2]
+
+    \begin{align*}
+        P_W(-4) & = P_{X, Y}(-2, -1) = 3 / 14, \\
+        P_W(-2) & = P_{X, Y}(-2, 0) + P_{X, Y}(0, -1) = 3 / 14, \\
+        P_W(0)  & = P_{X, Y}(-2, 1) + P_{X, Y}(2, -1) = 2 / 14, \\
+        P_W(2)  & = P_{X, Y}(0, 1) + P_{X, Y}(2, 0) = 3 / 14, \\
+        P_W(4)  & = P_{X, Y}(2, 1) = 3 / 14.
+    \end{align*}
+
+    \item [6.3.6]
+
+    Since $\text E[T] = \frac{1}{\lambda} = 200 \to \lambda = \frac{1}{200}.$
+
+    We have $$f_X(x) = \begin{cases}
+        \frac{1}{200} e^{-x / 200} & x \ge 0, \\
+        0 & x < 0.
+    \end{cases}$$
+
+    \begin{enumerate}[label=(\alph*)]
+        \item
+        \begin{align*}
+            \text P[C = 30]
+            & = \int_0^{300} \frac{1}{200} e^{-x / 200} dx \\
+            & = -(e^{-1.5} - 1) = 1 - e^{-1.5} \\
+            & = 1 - 0.223130 \\
+            & = 0.776869.
+        \end{align*}
+
+        \item
+
+        \begin{align*}
+            C & = 30 + 0.5(T - 300) \\
+            T & = 2(C - 30) + 300 \\
+              & = 2C + 240.
+        \end{align*}
+
+        We have
+        
+        $$f_C(c) = \frac{1}{200}e^{-\frac{1}{200}(2c + 240)}.$$
+
+        Therefore,
+
+        $$f_C(c) = \begin{cases}
+            0.776869 & c = 30, \\
+            \frac{1}{200}e^{-\frac{1}{200}(2c + 240)} & c > 30. \\
+            0 & \text{otherwise}.
+        \end{cases}
+        $$
+
+        \item
+
+        \begin{align*}
+        \text E[C]
+            & = \int_{-\infty}^\infty c f_C(c) dc \\
+            & = \int_{30}^\infty c \frac{1}{200}e^{-\frac{1}{200}(2c + 240)} dc \\
+            & = \Big [100 \cdot 30e^{-(60 + 240) / 200} + 10000e^{-(60 + 240) / 200} \Big] \\
+            & = 13000e^{-1.5} \\
+            & = 13000(0.223130) \\
+            & \approx 2900.69.
+        \end{align*}      
+    \end{enumerate}
+
+    \item [6.3.8]
+
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+        \begin{align*}
+            \text P[Y = 0.5] 
+            & = \text P[0 \le X \le 1] \\
+            & = \int_0^1 f_X(x) dx \\
+            & = \int_0^1 x / 2 dx \\
+            & = \frac{x^2}{4} \Bigg |_0^1 \\
+            & = \frac{1}{4}.    
+        \end{align*}
+
+        \item 
+        
+        Split limit of $x$ in the form of $y$ in two parts as, $\frac{1}{2} < y \le 1$ and $1 < y \le 2$.
+
+        Since $Y \ge \frac{1}{2}$, there fore it can conclude that for $y < \frac{1}{2}$,
+
+        $$F_Y(y) = 0.$$
+
+        And for $y \ge 2$,
+
+        $$F_Y(y) = 1.$$
+    
+        CDF $F_Y(y)$ for limits $1 < y \le 2$ is
+
+        \begin{align*}
+            F_Y(y) & = P[X \le y] \\
+                & = \int_0^y f_X(x) dx \\
+                & = \int_0^y \frac{x}{2} dx \\
+                & \frac{y^2}{4}.
+        \end{align*}
+
+        Hence the CDF of $Y$ can be written as,
+
+        $$F_Y(y) = \begin{cases}
+            0 & y < \frac{1}{2}, \\
+            \frac{1}{4} & \frac{1}{2} \le y \le 1, \\
+            \frac{y^2}{4} & 1 < y < 2, \\
+            1 & y \ge 2.
+        \end{cases}
+        $$
+
+    \end{enumerate}
+
+    \item [6.3.10]
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+        For $y < 0$, $F_Y(y) = 0$. \\
+        For $y > 36$, $F_Y(y) = 1$. \\
+        For $0 \le y \le 36$, 
+        
+        \begin{align*}
+        F_Y(y) & = \text P[Y \le y] = \text P[9X^2 \le y] \\
+        & = \text P[X^2 \le \frac{y}{9}] \\
+        & = \text P[-\frac{\sqrt y}{3} \le X \le \frac{\sqrt y}{3}] \\
+        & = \int_{-\frac{\sqrt y}{3}}^{\frac{\sqrt y}{3}} f_X(x) dx \\
+        & = \int_{-\frac{\sqrt y}{3}}^{\frac{\sqrt y}{3}} \frac{1}{4} dx \\
+        & = \frac{\sqrt y}{6}.
+        \end{align*}
+
+        Thus, the CDF of $Y$ is
+
+        $F_Y(y) =
+        \begin{cases}
+            0 & y < 0, \\
+            \frac{\sqrt y}{6} & 0 \le y \le 36, \\
+            1 & y > 36. 
+        \end{cases}
+        $
+
+        The PDF of $Y$ is
+
+        $f_Y(y) =
+        \begin{cases}
+            \frac{1}{12\sqrt y} & 0 \le y \le 36 \\
+            0 & \text{otherwise}.
+        \end{cases}
+        $
+        \item 
+
+        $$F_W(w) = \begin{cases}
+            \frac{1}{12 \sqrt w} & 0 \le y \le 16, \\
+            16 & \text{otherwise}.
+        \end{cases}
+        $$
+    \end{enumerate}
+
+    \item [6.4.1]
+
+    \begin{align*}
+        F_V(v) 
+            & = \text P[V \le v] \\
+            & = \text P[\max(X, Y) \le v] \\
+            & = \text P[X \le v, Y \le v] \\
+            & = \int_0^v \int_0^v 6xy^2 dx dy \\
+            & = v^5.
+    \end{align*}
+
+    $$F_V(v) = \begin{cases}
+        0 & v < 0, \\
+        v^5 & 0 \le v \le 1, \\
+        1 & v > 1.
+    \end{cases}
+    $$
+
+    PDF $f_V(v)$ is
+
+    $$f_V(v) = \begin{cases}
+        5v^4 & 0 \le v \le 1, \\
+        0    & \text{otherwise}.
+    \end{cases}
+    $$
+
+\end{enumerate}
+
+\end{document}

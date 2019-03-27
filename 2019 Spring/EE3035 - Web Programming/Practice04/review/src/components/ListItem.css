@@ -1,0 +1,102 @@
+
+.todo-app__item {
+    position: relative;
+    width: 100%;
+    min-height: 5em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.089);
+    border-top: 0;
+}
+
+.todo-app__checkbox {
+    width: 30px;
+    height: 30px;
+    background: #ddd;
+    margin: 15px;
+    border-radius: 100%;
+    position: relative;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.312);
+}
+
+.todo-app__checkbox label {
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+
+    transition: all 0.5s ease;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 1;
+
+    background: rgba(99, 99, 99, 0.698);
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.312);
+}
+
+.checked
+{
+    background: #26ca299b;    
+}
+
+.todo-app__checkbox input[type='checkbox']:checked + label {
+    background: #26ca299b;
+}
+
+.todo-app__item-detail {
+    font-weight: 300;
+    overflow-wrap: break-word;
+    width: 65%;
+    transition: opacity 0.3s;
+    height: 100%;
+}
+
+
+.todo-item-input {
+    font-size: 1.5em;
+    font-weight: 300;
+    overflow-wrap: break-word;
+    width: 80%;
+    min-height: 3em;
+    transition: opacity 0.3s;
+    border: none;
+}
+
+.todo-item-input:focus {
+    outline: none;
+}
+
+.todo-app__item-x {
+    display: none;
+}
+
+.todo-app__item:hover .todo-app__item-x {
+    display: inline;
+    position: absolute;
+    max-width: 20px;
+    max-height: 20px;
+    right: 20px;
+}
+
+.todo-app__item:hover .todo-app__item-x:hover {
+    max-width: 25px;
+    max-height: 25px;
+    right: 17.5px;
+    cursor: pointer;
+}
+
+.todo-app__item-detail-checked
+{
+    font-weight: 300;
+    overflow-wrap: break-word;
+    width: 65%;
+    transition: opacity 0.3s;
+    height: 100%;
+    opacity: 0.5;
+    text-decoration: line-through;
+}

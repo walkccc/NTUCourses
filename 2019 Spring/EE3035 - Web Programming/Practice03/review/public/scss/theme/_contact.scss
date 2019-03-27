@@ -1,0 +1,72 @@
+
+
+
+/*=================== contact form start ====================*/
+.form-contact{
+
+  .form-group{
+    margin-bottom: 10px;
+
+    label{
+      font-size: 14px;
+      color: $primary-color;
+    }
+  }
+
+  .form-control{
+    border-radius: 0;
+    height: 40px;
+    padding-left: 18px;
+    border-color: #EEEEEE;
+    background: transparent;
+
+    &:focus{
+      outline: 0;
+      box-shadow: none;
+    }
+
+    &::placeholder{
+      font-size: 14px;
+      color: #999999;
+    }
+  }
+
+  .different-control{
+    height: 100% !important;
+  }
+
+  // button{
+  //   border: 0;
+  // }
+}
+
+.contact-info{
+
+  &__icon{
+    margin-right: 20px;
+
+    i,span{
+      color: $primary-color;
+      font-size: 20px;
+    }
+  }
+
+  .media-body{
+
+    h3{
+      font-size: 16px;
+      margin-bottom: 0;
+      font-weight: 600;
+
+      a{
+        color: $title-color;
+      }
+    }
+
+    p{
+      color: #797979;
+    }
+  }
+}
+
+/*=================== contact form end ====================*/

@@ -1,0 +1,25 @@
+.disabled {
+	opacity: 0.2;
+}
+
+.disabled:hover {
+	border-color: transparent !important;
+	cursor: not-allowed;
+}
+
+#title {
+	font-family: Raleway;
+	margin: 0;
+	padding: 0;
+  font-size: 23px;
+  font-weight: 800;
+	text-align: center;
+  border-bottom: 2px solid #f1f1f1;
+  padding-top: .1in;
+  padding-bottom: .1in;
+}
+	
+.has-image-centered {
+	padding-top: 25vh;
+	margin: auto;
+}

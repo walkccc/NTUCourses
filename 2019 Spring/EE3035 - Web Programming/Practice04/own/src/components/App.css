@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: #ecf0f1;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+}
+
+header h1 {
+  font-size: 80px;
+  font-weight: 300;
+  margin: 15vh 0 25px;
+  color: #2c3e50;
+}
+
+header h1 span {
+  font-weight: 700;
+}
+
+header h2 {
+  font-size: 40px;
+  color: #bdc3c7;
+  font-weight: 300;
+}
+
+/* FORM */
+.form {
+  width: 700px;
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 100%;
+  height: 60px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #34495e;
+  outline: none;
+  font: 300 28px 'Ubuntu', sans-serif;
+  color: #34495e;
+}
+
+/* LIST */
+.list {
+  width: 650px;
+}
+
+.task {
+  width: 650px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 20px;
+  padding: 0 20px;
+  color: #34495e;
+  transition: all 0.3s ease;
+}
+
+.task:hover {
+  background: rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+}
+
+.task:hover span {
+  opacity: 1;
+}
+
+.done {
+  text-decoration: line-through;
+  color: #bdc3c7;
+}
+
+.X {
+  float: right;
+  color: #c0392b;
+  transition: all 0.3s;
+  opacity: 0;
+}
+
+@media screen and (max-width: 650px) {
+  .form {
+    width: 100%;
+  }
+
+  .list {
+    width: 75%;
+    margin-left: 0;
+  }
+
+  .task {
+    width: 100%;
+  }
+}
+
+article {
+  display: grid;
+  grid-template-columns: 1fr 0.5in [start] 1.25in 5in 1.25in [end] 0.5in 1fr;
+}
+
+article * {
+  grid-column: start / end;
+}
+
+@media (max-width: 8.5in) {
+  article {
+    grid-template-columns: 1fr 5% [start] 15% 60% 15% [end] 5% 1fr;
+  }
+}
+
+.button {
+  display: inline-block;
+  margin: 0 4px;
+  padding: 2px 8px;
+  font-size: 13px;
+  color: #6c6777;
+  border: solid 1px #6c6777;
+  border-radius: 20px;
+  cursor: pointer;
+  outline: none;
+}
+
+.button.selected {
+  color: #fff;
+  background: #6c6777;
+  border: solid 1px #6c6777;
+}
+
+.button.clear {
+  float: right;
+  color: #fff;
+  background: #ee1630;
+  border: solid 1px #ee1630;
+}

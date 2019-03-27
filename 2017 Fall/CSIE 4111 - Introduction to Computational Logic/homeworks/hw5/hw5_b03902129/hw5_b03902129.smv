@@ -1,0 +1,189 @@
+MODULE alice (in0, in1, inkey, out0, out1, outkey)
+VAR
+    st : { request, wait, receive, confirm, done };
+    nonce : { NONE, Nb };
+ASSIGN
+    init (st) := request;
+    next (st) := case
+                    st = request                                 : wait;       
+                    st = wait & in0 = Na & in1 = Nb & inkey = Ka : receive;     -- E -> A: {Na, Nb}Ka
+                    st = receive                                 : confirm;     
+                    st = confirm & out0 = Nb & outkey = Ke       : done;        -- A -> E: {Nb}Ke
+                    TRUE                                         : st;
+                 esac;
+
+    init (nonce) := NONE;
+    next (nonce) := case
+                        st = wait & in0 = Na & in1 = Nb & inkey = Ka : in1;     -- nonce = Nb
+                        TRUE                                         : nonce;
+                    esac;
+
+    init (out0) := NONE;
+    next (out0) := case
+                        st = request : Na;      -- A -> E: {Na, A}Ke
+                        st = confirm : nonce;   -- A -> E: {Nb}Ke
+                        TRUE         : out0;
+                   esac;
+
+    init (out1) := NOONE;
+    next (out1) := case
+                        st = request : Ia;      -- A -> E: {Na, A}Ke
+                        st = confirm : NOONE;   -- A -> E: {Nb}Ke
+                        TRUE         : out1;
+                   esac;
+
+    init (outkey) := NOKEY;
+    next (outkey) := case
+                        st = request : Ke;
+                        TRUE         : outkey; 
+                     esac;
+FAIRNESS running;
+
+MODULE bob (in0, in1, inkey, out0, out1, outkey)
+VAR
+    st : { wait, receive, confirm, done };
+    nonce : { NONE, Na };
+    other : { NOONE, Ia };
+ASSIGN
+    init (st) := wait;
+    next (st) := case
+                    st = wait & in0 = Na & in1 = Ia & inkey = Kb : receive;     -- E -> B: {Na, A}Kb
+                    st = receive                                 : confirm;
+                    st = confirm & in0 = Nb & inkey = Kb         : done;        -- E -> B: {Nb}Kb  --in1?
+                    TRUE                                         : st;
+                 esac;
+
+    init (nonce) := NONE;
+    next (nonce) := case
+                        st = wait & in0 = Na & in1 = Ia & inkey = Kb : in0;     -- nonce = Na
+                        TRUE                                         : nonce;
+                    esac;
+
+    init (other) := NOONE;
+    next (other) := case
+                        st = wait & in0 = Na & in1 = Ia & inkey = Kb : in1;     -- other = Ia
+                        TRUE                                         : other;
+                    esac;
+
+    init (out0) := NONE;
+    next (out0) := case
+                        st = confirm : nonce;   -- B -> E: {Na, Nb}Ka
+                        TRUE         : out0;
+                   esac;
+
+    init (out1) := NOONE;
+    next (out1) := case
+                        st = confirm : Nb;      -- B -> E: {Na, Nb}Ka
+                        TRUE         : out1;
+                   esac;
+
+    init (outkey) := NOKEY;
+    next (outkey) := case
+                        st = confirm & other = Ia : Ka;    
+                        TRUE                      : outkey;
+                     esac;
+FAIRNESS running;
+
+MODULE eve (in0A, in1A, inkeyA, out0A, out1A, outkeyA, in0B, in1B, inkeyB, out0B, out1B, outkeyB)
+VAR
+    st : { waitA, receiveA, confirmA,  
+           waitB, receiveB, confirmB, done };
+    nonce : { NONE, Na, Nb };
+    other : { NOONE, Nb, Ia };
+ASSIGN
+    init (st) := waitA;
+    next (st) := case
+                 -- st = waitA & in0A = Na & in1A = Ia & inkeyA = Ke & outkeyA = NOKEY      : receiveA;      -- A -> E: {Na, Ia}Ke 
+                    st = waitA & in0A = Na & in1A = Ia & inkeyA = Ke       : receiveA;    -- A -> E: {Na, Ia}Ke
+                    st = receiveA                                          : confirmA;
+                    st = confirmA & out0B = Na & out1B = Ia & outkeyB = Kb : waitB;       -- E -> B: {Na, Ia}Kb
+                  --st = confirmA & out0B = Na & out1B = Ia & outkeyB = Kb & inkeyB = NOKEY: waitB;         -- E -> B: {Na, Ia}Kb
+                  
+                    st = waitB & in0B = Na & in1B = Nb & inkeyB = Ka       : receiveB;    -- B -> E: {Na, Nb}Ka
+                    st = receiveB                                          : confirmB;   
+                    st = confirmB & out0A = Na & out1A = Nb & outkeyA = Ka : waitA;       -- E -> A: {Na, Nb}Ka
+
+                    st = waitA & in0A = Nb & inkeyA = Ke                   : receiveA;    -- A -> E: {Nb}Ke  
+                    st = receiveA                                          : confirmA;
+                    st = confirmA & out0B = Nb & outkeyB = Kb              : done;        -- E -> B: {Nb}Kb
+                    TRUE                                                   : st;
+                 esac;
+
+    init (nonce) := NONE;
+    next (nonce) := case
+                        st = waitA & in0A = Na & in1A = Ia & inkeyA = Ke : in0A;    -- nonce = Na
+                        st = waitB & in0B = Na & in1B = Nb & inkeyB = Ka : in0B;    -- nonce = Na
+                        st = waitA & in0A = Nb & inkeyA = Ke             : in0A;    -- nonce = Nb
+                        TRUE                                             : nonce;
+                    esac;
+
+    init (other) := NOONE;
+    next (other) := case
+                        st = waitA & in0A = Na & in1A = Ia & inkeyA = Ke : in1A;    -- other = Ia
+                        st = waitB & in0B = Na & in1B = Nb & inkeyB = Ka : in1B;    -- other = Nb
+                        TRUE                                             : other;
+                    esac;
+
+    -- A part
+
+    init (out0A) := NONE;
+    next (out0A) := case
+                        st = confirmB : nonce;      -- E forwards the encrypted message to A
+                        TRUE          : out0A;    
+                    esac;
+
+    init (out1A) := NOONE;
+    next (out1A) := case
+                        st = confirmB : other;      -- E forwards the encrypted message to A
+                        TRUE          : out1A;
+                    esac;
+
+    init (outkeyA) := NOKEY;
+    next (outkeyA) := case
+                        st = confirmB & other = Nb : Ka;        -- just turn the key on
+                        TRUE                       : outkeyA;
+                      esac;  
+
+    -- B part
+
+    init (out0B) := NONE;
+    next (out0B) := case
+                        st = confirmA : nonce;      -- E wants to convince B that it is A
+                        TRUE          : out0B;
+                    esac;
+
+    init (out1B) := NOONE;
+    next (out1B) := case
+                        st = confirmA : other;      -- E wants to convince B that it is A
+                        TRUE          : out1B;
+                    esac;
+
+    init (outkeyB) := NOKEY;
+    next (outkeyB) := case
+                        st = confirmA & other = Ia : Kb;        -- just turn the key on
+                        TRUE                       : outkeyB;
+                      esac;
+FAIRNESS running;
+
+MODULE main 
+VAR
+    a_in0 : { NONE, Na, Nb, Ia };
+    a_in1 : { NOONE, Na, Nb, Ia };
+    a_out0 : { NONE, Na, Nb };
+    a_out1 : { NOONE, Ia };
+    a_inkey : { NOKEY, Ka };
+    a_outkey : { NOKEY, Ke };
+
+    b_in0 : { NONE, Na, Nb };
+    b_in1 : { NOONE, Ia, Nb };
+    b_out0 : { NONE, Na };
+    b_out1 : { NOONE, Nb };
+    b_inkey : { NOKEY, Kb };
+    b_outkey : { NOKEY, Ka };
+
+    a : process alice (a_in0, a_in1, a_inkey, a_out0, a_out1, a_outkey);
+    b : process bob (b_in0, b_in1, b_inkey, b_out0, b_out1, b_outkey);
+    e : process eve (a_out0, a_out1, a_outkey, a_in0, a_in1, a_inkey, b_out0, b_out1, b_outkey, b_in0, b_in1, b_inkey);
+FAIRNESS running;
+
+LTLSPEC F (a.st = done & b.st = done & e.st = done)

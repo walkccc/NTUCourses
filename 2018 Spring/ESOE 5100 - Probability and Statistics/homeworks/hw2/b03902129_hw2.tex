@@ -1,0 +1,116 @@
+% !TEX program = xelatex
+\documentclass{article}
+\usepackage{/Users/jay/LaTeX/cs}
+\usepackage{xeCJK}
+
+\newcommand{\hmwkClass}{Probability and Statistics, Spring 2018}
+\newcommand{\hmwkTitle}{Homework 2}
+\newcommand{\hmwkDueDate}{March 26, 2018}
+\newcommand{\tb}{\textbf}
+
+\begin{document}
+
+\thispagestyle{empty}
+\section*{\hmwkClass \\
+    \normalsize{\hmwkTitle} \\
+    \normalsize{DUE DATE: \hmwkDueDate}
+}
+
+\hfill{B03902129 \, 資工四 \, 陳鵬宇}
+
+\begin{enumerate}
+    \item [\textbf{2.1.3}]
+
+    \begin{align*}
+    \mbox{P[overtime]} 
+        & = \mbox{P[1st good]P[2nd miss]} + \mbox{P[1st miss]P[2nd good]} \\
+        & = \frac{1}{2} \times \frac{1}{4} + \frac{1}{2} \times \frac{1}{4} \\
+        & = \frac{1}{4}
+    \end{align*}
+
+    \item [\textbf{2.1.9}]
+
+    \begin{enumerate}[label=(\alph*)]
+        \item
+        \begin{align*}
+        \mbox P[D \mid A] 
+            & = \frac{\mbox P[D] \mbox P[A \mid D]}{\mbox P[A]} \\
+            & = \frac{10^{-4} \cdot 0.99}{10^{-4} \cdot 0.99 + (1 - 10^{-4}) \cdot 0.1} \\
+            & \approx 0.000989.
+        \end{align*}
+
+        \item 
+        \begin{align*}
+        \mbox P[H \mid D] 
+            & = \mbox P[A \mid D] \mbox P[T^+ \mid A \cap D] \\
+            & = 0.99 \cdot 0.999 \\
+            & = 0.98901.
+        \end{align*}
+        
+        \item 
+        \begin{align*}
+        \mbox P[H \mid D^C]
+            & = \mbox P[A \mid D^C] \mbox P[T^+ \mid A \cap D^C] \\
+            & = 0.1 \cdot 0.001 \\
+            & = 0.0001.
+        \end{align*}
+
+        \item
+        \begin{align*}
+        \mbox P[H]
+            & = \mbox P[D] \mbox P[A \mid D] \mbox P[T^+ \mid A \cap D] + \mbox P[D^C] \mbox P[A \mid D^C] \mbox P[T^+ \mid A \cap D^C] \\
+            & = 10^{-4} \cdot 0.99 \cdot 0.999 + (1 - 10^{-4}) \cdot 0.1 \cdot 0.001 \\
+            & = 0.000198891.
+        \end{align*}
+
+        \item
+        \begin{align*}
+        \mbox P[D^C \mid H]
+            & = \frac{\mbox P[D^C] \mbox P[A \mid D^C] \mbox P[T^+ \mid A \cap D^C]}{\mbox P[H]} \\
+            & \approx 0.50273.
+        \end{align*}
+    \end{enumerate}
+
+    \item [\textbf{2.2.10}]
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+        $\mbox P[A] = C^{40}_{19}(\frac{19}{40})^{19} \cdot C^{21}_{19}(\frac{19}{40})^{19} \cdot C^2_2(\frac{2}{40})^2.$
+
+        \item 
+        $\mbox P[G_{19}] = C^{40}_{19}(\frac{19}{40})^{19} \cdot C^{21}_{21}(\frac{21}{40})^{21}.$
+
+        \item 
+        \begin{align*}
+        \mbox{P[You win]} 
+            & = \mbox{P[You bet red]} \mbox{P[red]} + \mbox{P[You bet green]} \mbox{P[green]} \\
+            & = \frac{1}{2} \cdot \frac{19}{40} + \frac{1}{2} \cdot \frac{19}{40} \\
+            & = \frac{19}{40}.
+        \end{align*}
+    \end{enumerate}
+
+    \item [\textbf{2.3.1}]
+
+    \begin{enumerate}[label=(\alph*)]
+        \item $\mbox P[00111] = 0.8^2 \cdot 0.2^3 = 0.00512.$
+        \item $\mbox{P[exactly three ones]} = C^5_3 (0.2)^3 \cdot C^2_2 (0.8)^2= 0.0512.$
+    \end{enumerate}
+
+    \item [\textbf{2.3.4}]
+
+    Let $A$ denotes away.
+
+    \begin{align*}
+        \mbox P[H]
+            & = \mbox P[H_1] \mbox P[H_2] + \mbox P[H_1] \mbox P[A_2] \mbox P[H_3] + \mbox P[A_1] \mbox P[H_2] \mbox P[H_3] \\
+            & = p^2 + p(1 - p)p + (1 - p)p^2 \\
+            & = p^2(1 + (1 - p) + (1 - p)) \\
+            & = p^2(3 - 2p) \\
+            & = 3p^2 - 2p^3.
+    \end{align*}
+
+    If $p \ge 1 / 2$, then $3p^2 - 2p^3 \ge p \Rightarrow \mbox P[H] \ge p.$ 
+
+\end{enumerate}
+
+\end{document}

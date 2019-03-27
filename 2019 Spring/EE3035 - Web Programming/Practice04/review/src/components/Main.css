@@ -1,0 +1,44 @@
+input[type='checkbox'] {
+    visibility: hidden;
+}
+
+.todo-app__main {
+    width: 100%;
+    background: rgb(254, 254, 254);
+}
+
+.todo-app__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* 5*5=25 */
+    max-height: 23em;
+    overflow: scroll;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+
+.todo-app__input {
+    padding: 16px;
+    border: none;
+    color: inherit;
+    background: rgba(254, 254, 254);
+    font-size: 24px;
+    font-weight: 200;
+    line-height: 1.4em;
+    width: 100%;
+    background: rgb(254, 254, 254);
+    box-shadow: inset 0px 0px 10px 2px rgba(0, 0, 0, 0.048);
+    border: 1px solid rgba(0, 0, 0, 0.089);
+    height: 5rem;
+}
+
+.todo-app__input:focus {
+    outline: none;
+}
+
+.todo-app__input::placeholder {
+    font-weight: 100;
+    opacity: 0.2;
+}

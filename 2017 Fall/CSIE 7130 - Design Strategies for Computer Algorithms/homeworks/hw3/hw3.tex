@@ -1,0 +1,201 @@
+% !TEX program = xelatex
+\documentclass[15pt]{extarticle}
+\usepackage{/Users/Jay/LaTeX/cs}
+\usepackage{/Users/Jay/LaTeX/xeCJK}
+\usepackage{/Users/Jay/LaTeX/slashbox}
+
+\newcommand{\hmwkClass}{演算法設計方法論(Design Strategies for Computer Algorithms)}
+\newcommand{\hmwkTitle}{Homework 3}
+\newcommand{\hmwkDueDate}{December 15, 2017}
+\newcommand{\tb}{\textbf}
+
+\begin{document}
+
+\thispagestyle{empty}
+\section*{\hmwkClass \\
+    \normalsize{\hmwkTitle} \\
+    \normalsize{DUE DATE: \hmwkDueDate}
+}
+
+\hfill \textbf{學號：b03902129 \, 系級：資工四 \, 姓名：陳鵬宇} \\
+
+\section{問題定義}
+\textbf{問題}：\begin{minipage}[t]{0.8\linewidth}
+    \textit{A Personnel Assignment Problem Solved by the Branch-And-Bound Strategy} \vskip0mm
+\end{minipage}
+
+\vskip3mm
+\textbf{輸入}：
+\begin{minipage}[t]{0.8\linewidth}
+    \begin{itemize}
+        \item 一大小為$n$的線性有序集 Persons $P=\{P_1, P_2, \dots, P_n\}$
+        \begin{itemize}
+            \item $P_1 < P_2 < \dots < P_n$
+            \item 我們可以想像這些人(persons)是由某些標準所衡量，例如身高、年齡、輩份等 
+    \end{itemize}
+        \item 一大小為$n$的集合 Jobs $J=\{J_1,J_2,\dots,J_n\}$
+        \begin{itemize}
+            \item 這些工作(jobs)是部分排序的
+            \item 每個人必需被指派到一個工作，即$$\forall\mbox{person } P_i, 1\le i\le n,\exists f(P_i)=\mbox{some }J_i, 1\le i\le n.$$
+            \item 並且要求：
+            \begin{itemize}
+                \item $f(P_i)\le f(P_j)\Rightarrow P_i\le P_j.$
+                \item $i\ne j\Rightarrow f(P_i)\ne f(P_j).$
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{minipage}
+
+\vskip3mm
+\textbf{輸出}：
+\begin{minipage}[t]{0.8\linewidth}
+    最小的花費(Cost) = $\sum\limits_{i,j}C_{ij}X_{ij}$
+    \begin{itemize}
+        \item $C_{ij}$為將$P_i$指派$J_j$的花費
+        \item 若$P_i$被指派到$J_j$：$X_{ij}=1$，否則$X_{ij}=0$
+    \end{itemize}
+\end{minipage}
+
+% 2
+\section{解法敘述}
+% 2.1
+\subsection{例子描述}
+我們以下用一個例來說明之：
+給定$n=4$，那麼輸入會有4位persons和4個已經被「部分」排序的jobs，以下為「部分」排序jobs的圖：
+
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+        main node/.style={circle,draw}]
+        \node[main node] (J1)               {$J_1$};
+        \node[main node] (J2) [right of=J1] {$J_2$};
+        \node[main node] (J3) [below of=J1] {$J_3$};
+        \node[main node] (J4) [below of=J2] {$J_4$};
+
+        \path
+            (J1) edge   node {} (J3)
+            (J1) edge   node {} (J4)
+            (J2) edge   node {} (J4);            
+    \end{tikzpicture}
+\end{center}
+
+透過觀察此有向圖，我們知道：
+\begin{itemize}
+    \item 因為$J_1$為$J_3,J_4$的父節點，所以$J_1$必在$J_3,J_4$前。 
+    \item 因為$J_2$為$J_4$的父節點，所以$J_2$必在$J_4$前。    
+\end{itemize}
+
+\newpage
+以下是所有可能的拓撲排序(topologically sorted sequences)：
+\begin{enumerate}
+    \item $J_1,J_2,J_3,J_4$
+    \item $J_1,J_2,J_4,J_3$
+    \item $J_1,J_3,J_2,J_4$
+    \item $J_2,J_1,J_3,J_4$
+    \item $J_2,J_1,J_4,J_3$
+\end{enumerate}
+
+透過列出所有可能的拓撲排序，我們可以根據以下規則得到一樹狀圖表示之：
+\begin{enumerate}
+    \item 先選取其中任一個沒有父節點的節點，在我們上圖舉的例子為$J_1$或$J_2$。
+    \item 該節點即為所有可能拓撲排序的第一個元素。
+    \item 移除該節點，回到步驟1.遞迴地做直到所有節點都被移除。
+\end{enumerate} 
+
+\begin{center}
+    \begin{forest}
+        for tree = {l sep=1cm, 
+                    s sep=1.5cm,
+                    minimum width=0.8cm,
+                    edge={->}, 
+                    circle, draw, anchor=center, fit=rectangle}
+        [0 [1 [2[3[4]][4[3]]] [3[2[4]]]] [2 [1[3[4]][4[3]]]]]
+    \end{forest}
+\end{center}
+
+此外，我們會有如下的 $C_{ij}$表格： 
+\begin{center}
+    \begin{tabular}{|c|c c c c|}
+        \hline
+        \diagbox{Persons}{Jobs} & $J_1$ & $J_2$ & $J_3$ & $J_4$ \\ 
+        \hline 
+        $P_1$ & 29 & 19 & 17 & 12 \\ 
+        $P_2$ & 32 & 30 & 26 & 28 \\ 
+        $P_3$ &  3 & 21 &  7 &  9 \\ 
+        $P_4$ & 18 & 13 & 10 & 15 \\ 
+        \hline
+    \end{tabular}
+\end{center}
+
+我們可以對每個列（行）同減該列（行）的最小值，使每一行至少有一個$0$，並且記錄所有被刪減的值的和（Total），這個動作很重要！ 
+\begin{enumerate}
+    \item 先對每列分列同減該行最小值，即$12,26,3,10$
+    \begin{center}
+        \begin{tabular}{|c|c c c c|}
+            \hline
+            \diagbox{Persons}{Jobs} & $J_1$ & $J_2$ & $J_3$ & $J_4$ \\ 
+            \hline 
+            $P_1$ & 17 &  7 &  5 &  0 \\ 
+            $P_2$ &  6 &  4 &  0 &  2 \\ 
+            $P_3$ &  0 & 18 &  4 &  6 \\ 
+            $P_4$ &  8 &  3 &  0 &  5 \\ 
+            \hline
+        \end{tabular}
+    \end{center}
+    \item 我們發現第2行任一元素皆不為$0$，再對該行同減最小值$3$，此時每一行皆至少有一個$0$
+    \begin{center}
+        \begin{tabular}{|c|c c c c|}
+            \hline
+            \diagbox{Persons}{Jobs} & $J_1$ & $J_2$ & $J_3$ & $J_4$ \\ 
+            \hline 
+            $P_1$ & 17 &  4 &  5 &  0 \\ 
+            $P_2$ &  6 &  1 &  0 &  2 \\ 
+            $P_3$ &  0 & 15 &  4 &  6 \\ 
+            $P_4$ &  8 &  0 &  0 &  5 \\ 
+            \hline
+        \end{tabular}
+    \end{center}
+    Total = $12+26+3+10+3=54.$
+    這就是此題的lower bound，因為每一個分支（即分別指派$P_1,P_2,P_3,P_4$）都會至少花費54單位。所以我們可以將這個值拿來當初始值（還未指派工作給任一人） 
+\end{enumerate}
+
+\tikzset{every label/.style={xshift=2ex, text width=6ex, align=right, 
+inner sep=1pt, font=\footnotesize, text=blue}}
+
+\begin{center}
+    \begin{forest}
+        for tree = {l sep=1cm, 
+                    s sep=1.5cm,
+                    minimum width=0.8cm,
+                    edge={->},
+                    circle, draw, anchor=center, fit=rectangle}
+        [0,label=54 [1,label=71 [2,label=72[3,label=76[4,label=81]][4,label=78[3,label=78]]] [3,label=71[2,label=86[4,label=91]]]] [2,label=58 [1,label=64[3,label=68[4,label=73]][4,label=70[3,label=70,fill=lightgray]]]]]
+    \end{forest}
+\end{center}
+
+透過檢查最右下分支的子節點3（花費$=70$）可以知道，任何比70單位花費更高節點的都不會是我們所求的解，故可以刪掉左邊節點1（花費$=71$）下面的所有子節點。
+此時我們可以得到我們的upper bound $= 70$。
+\begin{center}
+    \begin{forest}
+        for tree = {l sep=1cm, 
+                    s sep=1.5cm,
+                    minimum width=0.8cm,
+                    edge={->}, 
+                    circle, draw, anchor=center, fit=rectangle}
+                    [0,label=54 [1,label=71,fill=lightgray] [2,label=58 [1,label=64[3,label=68[4,label=73]][4,label=70[3,label=70]]]]]
+    \end{forest}
+\end{center}
+
+\newpage
+如果我們在前面沒有先對所有的結點做減縮（reduce）的動作，考慮以下的指派工作：$$P_1\to J_1, C_{11}=29,$$ 
+
+即始我們將所有工作都指派完畢得到了upper bound$=70$，也無法bound住$P_1\to J_1$，因為他的花費只有$29<70$，這也是為什麼一開始做減縮的動作這麼重要，可以幫助我們大副減少搜索的時間。
+
+\section{閱讀心得}
+
+這次的心得報告不像以往是閱讀paper，而是一本原文的演算法教科書。Branch and Bound和之前學習過的線性歸劃有些概念很相似，這些問題都是NP hard，且都在處理整數問題，但我們仍然希望能找到一個較好的解法，即便他不是多項式時間。\\
+
+不論是Branch and Bound，或是之前曾經學到的Prune and Search，他們的目的都是希望能夠減少「不必要的」計算過程，那些可能是早早就已經被發現不影響結果的，例如比lower bound低，或是比upper bound高，這跟期中考第2題要去找出$x_{right},x_{left}$來刪去越界的線去加速整體計算時間有異曲同工之妙。\\
+
+我覺得在學習演算法的過程中，是充滿愉快的，在Google相關資訊時，能夠挖掘到海量相關的內容，這種自我學習獲得知識的感覺真的很美好。每一個演算法就像是現實生活中某些事情的投影，我們致力於去降低時間複雜度、增加效率，現實生活中也是一樣，我們都希望事情能夠事半功倍，例如：當我們想念好演算法，就會用挑比較好的參考資料去學習之。像老師您喜歡品茗，也會用較好的茶具泡茶吧！
+
+\end{document}

@@ -1,0 +1,166 @@
+% !TEX program = xelatex
+\documentclass{article}
+\usepackage{/Users/jay/LaTeX/cs}
+\usepackage{/Users/jay/LaTeX/xeCJK}
+
+\newcommand{\hmwkClass}{Probability and Statistics, Spring 2018}
+\newcommand{\hmwkTitle}{Homework 5}
+\newcommand{\hmwkDueDate}{May 28, 2018}
+\newcommand{\tb}{\textbf}
+
+\begin{document}
+
+\thispagestyle{empty}
+\section*{\hmwkClass \\
+    \normalsize{\hmwkTitle} \\
+    \normalsize{DUE DATE: \hmwkDueDate}
+}
+
+\hfill{B03902129 \, 資工四 \, 陳鵬宇}
+
+\begin{enumerate}
+    \item [5.1.3] 
+    
+    \begin{align*}
+    P[x_1 \le X < x_2 \cup y_1 \le Y < y_2] 
+        & = [F_X(x_2) - F_X(x_1)] + [F_Y(y_2) - F_Y(y_1)] \\
+        & - [F_{X, Y}(x_2, y_2) - F_{X, Y}(x_1, y_2) - (F_{X, Y}(x_2, y_1) - F_{X, Y}(x_1, y_1))] \\
+        & = F_X(x_2) - F_X(x_1) + F_Y(y_2) - F_Y(y_1) \\
+        & - F_{X, Y}(x_2, y_2) + F_{X, Y}(x_1, y_2) + F_{X, Y}(x_2, y_1) - F_{X, Y}(x_1, y_1).
+    \end{align*}
+
+    \item [5.2.1]
+
+    \begin{enumerate}[label=(\alph*)]
+        \item $\sum\limits_{x = 1, 2, 4; y = 1, 3} cxy = 1 \to 28c = 1, c = 1 / 28$.
+        \item $P[Y < X] = \frac{1}{28}(2 \cdot 1 + 4 \cdot 1 + 4 \cdot 3) = \frac{18}{28} = \frac{9}{14}$.
+        \item $P[Y > X] = \frac{1}{28}(1 \cdot 3 + 2 \cdot 3) = \frac{9}{28}$.
+        \item $P[Y = X] = \frac{1}{28}(1 \cdot 1) = \frac{1}{28}$.
+        \item $P[Y = 3] = \frac{1}{28}(1 + 2 + 4) \cdot 3 = \frac{21}{28} = \frac{3}{4}$.
+    \end{enumerate}
+
+    \item [5.3.4]
+
+    $P_X(x) = \begin{cases}
+        \frac{1}{21} & x = 0 \\
+        \frac{2}{21} & x = 1 \\
+        \frac{3}{21} & x = 2 \\
+        \frac{4}{21} & x = 3 \\
+        \frac{5}{21} & x = 4 \\
+        \frac{6}{21} & x = 5.
+    \end{cases}
+    $
+
+    $P_Y(y) = \begin{cases}
+        \frac{6}{21} & y = 0 \\
+        \frac{5}{21} & y = 1 \\
+        \frac{4}{21} & y = 2 \\
+        \frac{3}{21} & y = 3 \\
+        \frac{2}{21} & y = 4 \\
+        \frac{1}{21} & y = 5.
+    \end{cases}
+    $
+
+    $E[X] = 0 + \frac{2}{21} + \frac{6}{21} + \frac{12}{21} + \frac{20}{21} + \frac{30}{21} = \frac{70}{21} = \frac{10}{3}$.
+
+    $E[Y] = 0 + \frac{5}{21} + \frac{8}{21} + \frac{9}{21} + \frac{8}{21} + \frac{5}{21} = \frac{35}{21} = \frac{5}{3}$.
+
+    \item [5.6.1]
+
+    \begin{enumerate}[label=(\alph*)]
+        \item
+            $
+            \begin{array}{c|ccc}
+                & d = 20 & d = 100 & d = 300 \\
+            \hline
+            w = 1 & 0.2    & 0.2     & 0.2 \\
+            w = 2 & 0.1    & 0.2     & 0.1
+            \end{array}
+            $
+
+
+        \item
+            $E[D] = (0.2 + 0.1) \cdot 20 + (0.2 + 0.2) \cdot 100 + (0.2 + 0.1) \cdot 300 = 136$ (miles).
+
+        \item $P_{W, D}(1, 20) = 0.2 \ne P_W(1) \cdot P_D(2) = 0.6 \cdot 0.3 = 0.18$. Thus $W$ and $D$ are not independent.
+    \end{enumerate}
+
+    \item [5.8.2]
+
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+        $E[W] = E[Y / X] = \frac{1}{28} \cdot \frac{1}{1}                  
+                         + \frac{2}{28} \cdot \frac{1}{2}
+                         + \frac{4}{28} \cdot \frac{1}{4}
+                         + \frac{3}{28} \cdot \frac{3}{1}
+                         + \frac{6}{28} \cdot \frac{3}{2}
+                         + \frac{12}{28} \cdot \frac{3}{4} = \frac{30}{28} = \frac{15}{14}$.
+
+        \item
+        $r_{X, Y} = E[XY] = \frac{1}{28}  \cdot 1 \cdot 1                  
+                          + \frac{2}{28}  \cdot 2 \cdot 1
+                          + \frac{4}{28}  \cdot 4 \cdot 1
+                          + \frac{3}{28}  \cdot 1 \cdot 3
+                          + \frac{6}{28}  \cdot 2 \cdot 3
+                          + \frac{12}{28} \cdot 4 \cdot 3 = \frac{210}{28} = \frac{15}{2}$.
+
+        \item
+        $\text{Cov}[X, Y] = E[(X - \mu_X)(Y - \mu_Y)] = E[(X - 3)(Y - \frac{5}{2})] = 0.$
+
+        \item
+        $\rho_{X, Y} = \frac{\text{Cov}[X, Y]}{\sigma_X \sigma_Y} = 0$
+
+        \item
+        $\text{Var}[X + Y] = E[(X + Y)^2] - (E[X + Y])^2 = \frac{227}{7} - \frac{121}{4} = \frac{61}{28}$.
+    \end{enumerate}
+
+    \item [5.9.7]
+
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+        \begin{align*}
+            P[I] & = P[W > 10, T > 38] \\
+                 & = P[W > 10] \cdot P[T > 38] \\
+                 & = (1 - \Phi(\frac{10 - 7}{2})) \cdot (1 - \Phi(\frac{38 - 37}{1})) \\
+                 & = 0.0668 \cdot 0.1587 = 0.0106.
+        \end{align*}
+
+        \item
+
+        \begin{align*}
+            P[I \mid T = t] & = P[W > 10 \mid T = t] \\
+                & = 1 - \Phi(\frac{x - \mu}{\sigma}) \\
+                & = 1 - \Phi(\frac{10 - 7 - \sqrt 2 (t - 37)}{\sqrt 2}) \\
+                & = Q(\frac{3\sqrt 2}{2} - t + 37).
+        \end{align*}
+    \end{enumerate}
+
+    \item [5.10.8]
+
+    \begin{enumerate}[label=(\alph*)]
+        \item
+        \begin{align*}
+            (1 - \Phi(\frac{t - E(T)}{\sigma_T}))^{10}
+                & = (1 - \Phi(\frac{25 - 35}{5}))^{10} \\
+                & = (1 - \Phi(-2))^{10} \\
+                & = \Phi(2)^{10} = 0.9725^{10} = 0.7944.
+        \end{align*}
+
+        \item
+        $1 - \Phi(\frac{50 - 35}{5})^{10} = 1 - \Phi(3)^{10} = 0.0134$.
+
+        \item
+        $1 - (1 - \Phi(\frac{0 - 35}{5})^{10}) = 1 - \Phi(7)^{10}$.
+
+    \end{enumerate}
+
+
+
+
+
+
+
+
+\end{enumerate}
+
+\end{document}

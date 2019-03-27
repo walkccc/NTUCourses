@@ -1,0 +1,71 @@
+.todo-app__footer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 3em;
+    padding: 1em;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.089);
+    border-top: 0.5px solid rgba(0, 0, 0, 0.089);
+}
+
+.todo-app__total {
+    min-width: 3em;
+}
+
+.todo-app__view-buttons {
+    display: flex;
+    margin: 0;
+    margin-left: 2em;
+    padding: 0;
+    width: 12em;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+}
+
+.todo-app__view-buttons button {
+    border: none;
+    padding: 5px;
+    font-size: 0.8em;
+    font-weight: inherit;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: aliceblue;
+}
+
+.todo-app__view-buttons button:focus {
+    outline: none;
+}
+
+.todo-app__clean {
+    vertical-align: middle;
+}
+
+.todo-app__clean button {
+    border: none;
+    padding: 5px;
+    border: 1px solid transparent;
+    font-size: 0.8em;
+    font-weight: inherit;
+    cursor: pointer;
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+
+.todo-app__clean button:focus {
+    outline: none;
+}
+
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+.todo-app__clean button:hover {
+    text-decoration: underline;
+}

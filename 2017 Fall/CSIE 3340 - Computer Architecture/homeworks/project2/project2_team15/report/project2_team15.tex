@@ -1,0 +1,137 @@
+% !TEX program = xelatex
+\documentclass{article}
+\usepackage{/Users/jay/LaTeX/cs}
+\usepackage{/Users/jay/LaTeX/codelist}
+
+\newcommand{\hmwkClass}{Computer Architecture, Fall 2017}
+\newcommand{\hmwkTitle}{Project 2 report}
+\newcommand{\hmwkDueDate}{JANUARY 1, 2018}
+\newcommand{\tb}{\textbf}
+
+\begin{document}
+
+\thispagestyle{empty}
+\section*{\hmwkClass \\
+    \normalsize{\hmwkTitle} \\
+    \normalsize{DUE DATE: \hmwkDueDate}
+}
+
+\section{Members \& Team Work} 
+\begin{itemize}
+    \item b03902125 郭曉嵐
+    \begin{itemize}
+        \item Debugging of \textit{CPU.v}.
+        \item Handling the stall signal.
+    \end{itemize}
+
+    \item b03902127 林映廷
+    \begin{itemize}
+        \item The implementation of the state transition.
+        \item Setup read/write data of the cache controller.
+    \end{itemize}
+
+    \item b03902129 陳鵬宇
+    \begin{itemize}
+        \item Debugging of each sub module.
+        \item Writing report.
+    \end{itemize}
+
+\end{itemize}
+
+\section{Project Implementation}
+\begin{enumerate}
+    \item First, we review all modules of project1. 
+    \item Copy the code of project1 and add some new \textit{.v} files ("\textit{dcache\_top.v}", "\textit{dcache\_tag\_sram.v}" and "\textit{dcache\_data\_sram.v}")
+    \item Finally, modify \textit{CPU.v}, \textit{TestBench.v} and \textit{dcache\_top}.
+\end{enumerate}
+
+\section{Cache Controller in Detail}
+\subsection*{Compare the Tags}
+    We compare the tags to check if there is a read miss.
+
+
+\lstset{language = Verilog}          % Set your language (you can change the language for each code-block optionally)
+
+\begin{lstlisting}[frame=single]  % Start your code-block
+
+    assign {hit, r_hit_data} = (p1_req && sram_valid && p1_tag == sram_cache_tag[21:0]) ?
+           {1'b1, sram_cache_data} : {1'b0, 256'b0};
+
+\end{lstlisting}
+
+\subsection*{Initialize the 32-bit output data}
+\begin{lstlisting}[frame=single]  % Start your code-block
+
+    always@(p1_offset or r_hit_data) begin 
+    case (p1_offset)
+        5'h00: p1_data <= r_hit_data[31:0];
+        5'h04: p1_data <= r_hit_data[63:32];
+        5'h08: p1_data <= r_hit_data[95:64];
+        5'h0c: p1_data <= r_hit_data[127:96];
+        5'h10: p1_data <= r_hit_data[159:128];
+        5'h14: p1_data <= r_hit_data[191:160];
+        5'h18: p1_data <= r_hit_data[223:192];
+        5'h1c: p1_data <= r_hit_data[255:224];
+        default p1_data <= 32'd0;
+    endcase
+    end
+\end{lstlisting}
+
+\subsection*{Initialize the 256-bit output data}
+
+\begin{lstlisting}[frame=single]  % Start your code-block
+
+    always@(p1_offset or r_hit_data or p1_data_i) begin
+    case (p1_offset)
+        5'h00: w_hit_data <= {r_hit_data[255:32], p1_data_i};
+        5'h04: w_hit_data <= {r_hit_data[255:64], p1_data_i, r_hit_data[31:0]};
+        5'h08: w_hit_data <= {r_hit_data[255:96], p1_data_i, r_hit_data[63:0]};
+        5'h0c: w_hit_data <= {r_hit_data[255:128], p1_data_i, r_hit_data[95:0]};
+        5'h10: w_hit_data <= {r_hit_data[255:160], p1_data_i, r_hit_data[127:0]};
+        5'h14: w_hit_data <= {r_hit_data[255:192], p1_data_i, r_hit_data[159:0]};
+        5'h18: w_hit_data <= {r_hit_data[255:224], p1_data_i, r_hit_data[191:0]};
+        5'h1c: w_hit_data <= {p1_data_i, r_hit_data[223:0]};
+        default w_hit_data <= 256'b0;
+    endcase
+    end
+\end{lstlisting}
+
+\subsection*{Revise the signals of the cache}
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm,
+    semithick]
+
+    \node[state]    (I)                 {\textit{idle}};
+    \node[state]    (M)  [right of=I]   {\textit{miss}};
+    \node[state]    (W)  [right of=M]   {\textit{write back}};
+    \node[state]    (R)  [below of=M]   {\textit{read miss}};
+    \node[state]    (RO) [below of=I]   {\textit{read miss ok}};
+
+    \path 
+        (I) edge [loop above] node {!p1\_req || hit} (I)
+        (I) edge              node {p1\_req \&\& !hit} (M)
+        (M) edge              node {sram\_dirty} (W)
+        (M) edge              node {!sram\_dirty} (R)
+        (W) edge [loop right] node {!mem\_ack\_i} (W)
+        (W) edge              node {mem\_ack\_i} (R)
+        (R) edge [loop below] node {!mem\_ack\_i} (R)
+        (R) edge              node {mem\_ack\_i} (RO)
+        (RO) edge             node {} (I)
+    ;
+\end{tikzpicture}
+
+\newpage
+\section{Problems and Solution of the Project}
+To implement L1 cache in so many \textit{.v} files is not easy, 
+we have to carefully connect each input and output in a correct manner. 
+It is also very difficult to debug because there are over \textit{twenty .v} files in the folder. 
+Our eyes really suffered a lot. 
+We inserted the following codes to generate the .vcd file for conveniently debugging: \\
+
+\hspace{10mm}\$dumpfile("project.vcd"); \vskip0mm
+\hspace{10mm}\$dumpvars \\
+
+By tracing the logic of the .vcd file, it can significantly increase the speed of debugging.
+Also, printing the values of the ports and pipeline registers works a lot for debugging.
+
+\end{document}
